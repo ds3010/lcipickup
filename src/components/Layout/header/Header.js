@@ -1,6 +1,6 @@
 //import { Nav, Navbar } from "react-bootstrap";
 import React, { useState } from "react";
-import './Header.module.css'
+import './Header.css'
 import $ from "jquery";
 
 const Header = () => {
@@ -15,7 +15,8 @@ const Header = () => {
 
   console.log(expandMenu.showCollapsedMenu)
 
-  const showMenu = expandMenu.showCollapsedMenu ? "show" : "";
+  // const showMenu = expandMenu.showCollapsedMenu ? "active" : "";
+  // console.log(showMenu)
   
   return (
     <>
@@ -25,15 +26,15 @@ const Header = () => {
             LCI Pickup Soccer
           </a>
             <button
-              className="navbar-toggler border border-info"
+              className="navbar-toggler border border-info text-info"
               data-toggle="collapse"
               data-target="#navbarNav"
               onClick={toggleMenu}
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            {/* <div className={"collapse navbar-collapse "} id="navbarNav"> */}
-            <div className={"navbar-collapse collapse " + showMenu} id="navbarNav">
+            {/* <div className={"navbar-collapse collapse"} id="navbarNav"> */}
+            <div className={expandMenu.showCollapsedMenu ? "collapse navbar-collapse active" : "collapse navbar-collapse"} id="navbarNav">
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <a className="nav-link" href="#">
@@ -47,7 +48,7 @@ const Header = () => {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    Services
+                    Next Games
                   </a>
                 </li>
                 <li className="nav-item">
