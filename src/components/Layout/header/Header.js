@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "./Header.css";
 import MenuOption from "../MenuOptions/MenuOption";
+import { useNavigate } from "react-router-dom";
 import $ from "jquery";
 
 const Header = () => {
@@ -46,11 +47,16 @@ const Header = () => {
     setLoggedIn(false);
   };
 
+  const navigate = useNavigate();
+  const toHomePage = () => {
+    navigate('/')
+  }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-secondary mb-3">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="#" onClick={toHomePage}>
             LCI Pickup Soccer
           </a>
           <button

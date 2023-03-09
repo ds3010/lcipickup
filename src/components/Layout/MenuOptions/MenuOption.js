@@ -1,6 +1,12 @@
+// import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 const MenuOption = (props) => {
   //console.log(props);
 
+  const navigate = useNavigate();
+
+  //Configuring the navigation depending on the option clicked
   const optionClicked = (e) => {
     e.preventDefault();
     if (e.target.innerHTML === "Sign In") {
@@ -9,7 +15,11 @@ const MenuOption = (props) => {
     } else if (e.target.innerHTML === "Sign Out") {
       //console.log("Signing Out");
       props.loggingOut();
-    }
+    } else if (e.target.innerHTML === "Games") {
+      navigate("/games")
+    } else if (e.target.innerHTML === "My Profile") {
+      navigate("/profile")
+    } 
   };
 
   return (
