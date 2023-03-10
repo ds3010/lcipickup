@@ -20,14 +20,14 @@ const Header = () => {
   //menu options for non-signed in users
   if (!loggedIn) {
     options = [
-      { name: "Games", key: 0 },
+      { name: "Schedule", key: 0 },
       { name: "Sign In", key: 1 },
       { name: "Sign Up", key: 2 },
     ];
     //menu options for signed in users
   } else {
     options = [
-      { name: "Games", key: 0 },
+      { name: "Schedule", key: 0 },
       { name: "My Profile", key: 1 },
       { name: "Sign Out", key: 2 },
     ];

@@ -1,6 +1,6 @@
 import Header from "./components/Layout/header/Header";
 import { Route, Routes } from "react-router-dom";
-import Games from "./components/MainScreenPages/Games/Games";
+import Schedule from "./components/MainScreenPages/Schedule/Schedule";
 import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 
@@ -11,8 +11,8 @@ function App() {
       <main>
         <Routes>
           <Route
-            path="/games"
-            element={<Games />}
+            path="/schedule"
+            element={<Schedule />}
           />
           <Route
             path="/profile"

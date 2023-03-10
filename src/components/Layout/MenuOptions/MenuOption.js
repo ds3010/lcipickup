@@ -15,8 +15,8 @@ const MenuOption = (props) => {
     } else if (e.target.innerHTML === "Sign Out") {
       //console.log("Signing Out");
       props.loggingOut();
-    } else if (e.target.innerHTML === "Games") {
-      navigate("/games")
+    } else if (e.target.innerHTML === "Schedule") {
+      navigate("/schedule")
     } else if (e.target.innerHTML === "My Profile") {
       navigate("/profile")
     } 
