@@ -2,14 +2,22 @@ import { useState } from "react"
 
 const Game = (props) => {
     const [isActive, setIsActive] = useState(false)
+    const [btnActive, setBtnActive] = useState(false)
 
-    console.log(props.data.options)
+    //console.log(props.data.options)
     
     const expandOrCollapse = () => {
         setIsActive(prev => {
             return !prev
         })
     }
+
+    const onOptionSelected = () => {
+        //console.log('option selected')
+        setBtnActive(true)
+    }
+
+    const btnClasses = btnActive ? "btn btn-secondary col-12" : "btn btn-secondary col-12 disabled";
 
     return (
     <div className="card container">
@@ -34,17 +42,13 @@ const Game = (props) => {
         {isActive && <div id="collapse1" className="collapse show">
             <div className="card-body">
                 {props.data.options.map((option) =>                
-                    // <div class="form-check">
-                    //     <input class="form-check-input" type="radio" name={option.time} id={option.date}/>
-                    //     <label class="form-check-label" for={option.date}> {option.time} </label>
-                    // </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name={option.date} id={option.date}/>
-                        <label class="form-check-label" for={option.date}> {option.time}<p className="d-inline text-monospace">({option.price})</p></label>
+                    <div className="form-check" key={option.id}>
+                        <input className="form-check-input" type="radio" name={option.date} id={option.date} onChange={onOptionSelected}/>
+                        <label className="form-check-label" > {option.time}<p className="d-inline text-monospace">({option.price})</p></label>
                     </div>
                 )}
             </div>
-            <button class="btn btn-secondary col-12 disabled" type="button">Play!</button>
+            <button className={btnClasses} type="button">Play!</button>
         </div>}
     </div>)
 }

@@ -9,11 +9,13 @@ const Schedule = () => {
             {            
                 time: '4pm to 6pm',
                 price: '20CAD',
+                id: 0,
                 date: "Sunday, March 12th, 2023",
             }
             ,{
                 time: '5pm to 6pm',
                 price: '18CAD',
+                id: 1,
                 date: "Sunday, March 12th, 2023",   
             }        
         ],
@@ -24,11 +26,13 @@ const Schedule = () => {
             {            
                 time: '4pm to 6pm',
                 price: '20CAD',
+                id: 0,
                 date: "Sunday, March 19th, 2023",
             }
             ,{
                 time: '5pm to 6pm',
                 price: '18CAD',
+                id: 1,
                 date: "Sunday, March 19th, 2023",   
             }        
         ],
@@ -39,11 +43,13 @@ const Schedule = () => {
             {            
                 time: '4pm to 6pm',
                 price: '20CAD',
+                id: 0,
                 date: "Sunday, March 26th, 2023"
             }
             ,{
                 time: '5pm to 6pm',
                 price: '18CAD',
+                id: 1,
                 date: "Sunday, March 26th, 2023"   
             }        
         ],

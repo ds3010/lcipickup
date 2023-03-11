@@ -5,7 +5,7 @@ import MenuOption from "../MenuOptions/MenuOption";
 import { useNavigate } from "react-router-dom";
 import $ from "jquery";
 
-const Header = () => {
+const Header = (props) => {
   //THIS IS ONE WAY TO MAKE THE HAMBURGER MENU WORK:
   const [expandMenu, setExpandMenu] = useState({ showCollapsedMenu: false });
 
@@ -15,10 +15,10 @@ const Header = () => {
     });
   };
   //State that tracks whether the user is logged in or not
-  const [loggedIn, setLoggedIn] = useState(false);
+  //const [loggedIn, setLoggedIn] = useState(false);
   let options;
   //menu options for non-signed in users
-  if (!loggedIn) {
+  if (!props.userLoggedIn) {
     options = [
       { name: "Schedule", key: 0 },
       { name: "Sign In", key: 1 },
@@ -40,11 +40,11 @@ const Header = () => {
   //   console.log("about option clicked");
   // };
 
-  const signingIn = () => {
-    setLoggedIn(true);
-  };
+  // const signingIn = () => {
+  //   setLoggedIn(true);
+  // };
   const signingOut = () => {
-    setLoggedIn(false);
+    props.onUserLogout();
   };
 
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ const Header = () => {
                 <MenuOption
                   key={opt.key}
                   details={opt}
-                  loggingIn={signingIn}
+                  // loggingIn={signingIn}
                   loggingOut={signingOut}
                 />
               ))}
