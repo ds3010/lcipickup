@@ -4,7 +4,9 @@ import Schedule from "./components/MainScreenPages/Schedule/Schedule";
 import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
+import SignInForm from "./components/Authentication/SignInForm";
 import { useState } from "react";
+import SignOutWarning from "./components/Authentication/SignOutWarning";
 
 function App() {
 
@@ -34,6 +36,14 @@ function App() {
           <Route
             path="/signupform"
             element={<SignUpForm onUserLogin={onUserLogin}/>}
+          />
+          <Route
+            path="/signinform"
+            element={<SignInForm onUserLogin={onUserLogin}/>}
+          />
+          <Route
+            path="/signout"
+            element={<SignOutWarning onUserLogout={onUserLogout}/>}
           />
           <Route path="/" element={<Home />} />
         </Routes>

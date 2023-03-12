@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import "./Header.css";
 import MenuOption from "../MenuOptions/MenuOption";
 import { useNavigate } from "react-router-dom";
-import $ from "jquery";
 
 const Header = (props) => {
   //THIS IS ONE WAY TO MAKE THE HAMBURGER MENU WORK:
@@ -43,9 +42,9 @@ const Header = (props) => {
   // const signingIn = () => {
   //   setLoggedIn(true);
   // };
-  const signingOut = () => {
-    props.onUserLogout();
-  };
+  // const signingOut = () => {
+  //   props.onUserLogout();
+  // };
 
   const navigate = useNavigate();
   const toHomePage = () => {
@@ -56,6 +55,9 @@ const Header = (props) => {
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-secondary mb-3">
         <div className="container-fluid">
+        {/*FOR BELOW LINE:  Line 61:11:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a 
+        valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. 
+        Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid */}
           <a className="navbar-brand" href="#" onClick={toHomePage}>
             LCI Pickup Soccer
           </a>
@@ -82,7 +84,7 @@ const Header = (props) => {
                   key={opt.key}
                   details={opt}
                   // loggingIn={signingIn}
-                  loggingOut={signingOut}
+                  //loggingOut={signingOut}
                 />
               ))}
               {/* <li className="nav-item">

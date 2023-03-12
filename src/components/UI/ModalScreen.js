@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,14 +22,6 @@ const ModalScreen = (props) => {
           <Modal.Title>{props.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">{props.children}</Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            {props.btnText}
-          </Button>
-        </Modal.Footer> */}
       </Modal>
     </>
   );

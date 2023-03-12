@@ -6,19 +6,18 @@ const MenuOption = (props) => {
   //console.log(props);
 
   const navigate = useNavigate();
-  let content
 
   //Configuring the navigation depending on the option clicked
   const optionClicked = (e) => {
     e.preventDefault();
     if (e.target.innerHTML === "Sign In") {
-      
+      navigate('signinform')
       // props.loggingIn();
     } else if (e.target.innerHTML === "Sign Out") {
       //console.log("Signing Out");
-
+      navigate('signout')
       //TODO: Create a component that renders a modal asking for confirmation to logout, the functionality to log out is at App.js with the onUserLogout function
-      props.loggingOut();
+      //props.loggingOut();
     } else if (e.target.innerHTML === "Sign Up") {
       navigate('signupform')
       //props.loggingIn();
@@ -31,7 +30,10 @@ const MenuOption = (props) => {
 
   return (
     <li className="nav-item ">
-      <a onClick={optionClicked} className="nav-link text-center">
+      {/*FOR BELOW LINE:  Line 36:7:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a 
+      valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. 
+      Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid */}
+      <a onClick={optionClicked} className="nav-link text-center" href="#">
         <span role="button">{props.details.name}</span>
       </a>
     </li>
