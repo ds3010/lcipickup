@@ -2,11 +2,27 @@ import ModalScreen from "../UI/ModalScreen"
 import { useRef, useState } from "react"
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
+//import { initializeApp } from "firebase/app";
+//import { getAnalytics } from "firebase/analytics";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUpForm = (props) => {
     const username = useRef()
     const password = useRef()
     const password2 = useRef()
+
+    //console.log(props.firebaseConn)
+    const fbApp = props.firebaseConn
+    const fbAuth = getAuth(fbApp)
+    //console.log(fbAuth)
+    //const fbAuth = props.firebaseConn.auth();
+    //console.log(fbAuth)
+    //const app = initializeApp(props.firebaseConfig);
+    //console.log(app)
+    
+    //const analytics = getAnalytics(app);
+
+    
 
     const navigate = useNavigate()
 
@@ -28,6 +44,12 @@ const SignUpForm = (props) => {
             setFormMessage("Password should contain at least one number and one special character")
             setFormSubmitted(false)
         } else {
+            //Singing Up into Firebase
+            createUserWithEmailAndPassword(fbAuth, username.current.value,password.current.value).then((userCredential)=>{
+                console.log(userCredential)
+            }).catch((error)=>{
+                console.log(error)
+            })
             setFormMessage("Welcome!")
             setFormSubmitted(true)
             setTimeout(function() {
