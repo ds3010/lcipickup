@@ -10,11 +10,7 @@ const AuthContext = React.createContext({
   gamesPlayed: [],
   phoneNumber: "",
   updategames: (games) => {},
-  updateProfile: (
-    displayName,
-    phoneNumber,
-    isAdmin
-  ) => {},
+  updateProfile: (displayName, phoneNumber, isAdmin) => {},
   //
   login: (token, email, userId) => {},
   logout: () => {},
@@ -51,20 +47,16 @@ export const AuthContextProvider = (props) => {
     setdisplayName(null);
     setphoneNumber(null);
     setgames([]);
-    setIsAdmin(null)
+    setIsAdmin(null);
   };
 
   //NEW
-  const updateProfileHandler = (
-    displayName,
-    phoneNumber,
-    isAdmin
-  ) => {
+  const updateProfileHandler = (displayName, phoneNumber, isAdmin) => {
     //console.log(displayName, phoneNumber, street, city, postalCode, country);
     //console.log("UPDATE PROFILE HANDLER");
     setdisplayName(displayName);
     setphoneNumber(phoneNumber);
-    setIsAdmin(isAdmin)
+    setIsAdmin(isAdmin);
   };
 
   const updategamesHandler = (games) => {

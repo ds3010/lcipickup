@@ -1,5 +1,5 @@
 import ModalScreen from "../UI/ModalScreen";
-import { useRef, useState,useContext } from "react";
+import { useRef, useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "./Context/auth-context";
@@ -16,15 +16,15 @@ const SignUpForm = (props) => {
   const username = useRef();
   const password = useRef();
   const password2 = useRef();
-  
+
   const fbApp = props.firebaseConn;
   const fbAuth = getAuth(fbApp);
   const fbdB = getFirestore(fbApp);
-  
-  const authCtx = useContext(AuthContext)
-  
+
+  const authCtx = useContext(AuthContext);
+
   const navigate = useNavigate();
-  
+
   const [formMessage, setFormMessage] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -70,11 +70,7 @@ const SignUpForm = (props) => {
           );
           setFormMessage("Welcome!");
           setFormSubmitted(true);
-          authCtx.login(
-            res.user.accessToken,
-            res.user.email,
-            res.user.uid
-          );
+          authCtx.login(res.user.accessToken, res.user.email, res.user.uid);
           setTimeout(function () {
             onCloseHandler();
           }, 2000);
