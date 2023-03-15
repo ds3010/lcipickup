@@ -3,13 +3,7 @@ import { useRef, useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "./Context/auth-context";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  doc,
-  setDoc,
-} from "firebase/firestore/lite";
+import { getFirestore, doc, setDoc } from "firebase/firestore/lite";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUpForm = (props) => {
@@ -70,7 +64,12 @@ const SignUpForm = (props) => {
           );
           setFormMessage("Welcome!");
           setFormSubmitted(true);
-          authCtx.login(res.user.accessToken, res.user.email, res.user.uid);
+          authCtx.login(
+            res.user.accessToken,
+            res.user.email,
+            res.user.uid,
+          );
+          authCtx.updateAdminStatus(false)
           setTimeout(function () {
             onCloseHandler();
           }, 2000);

@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import AuthContext from "./Context/auth-context";
+// import { doc, getDoc } from "firebase/firestore";
+//import { getFirestore } from "firebase/firestore";
 
 const SignInForm = (props) => {
   const username = useRef();
@@ -15,6 +17,7 @@ const SignInForm = (props) => {
 
   const fbApp = props.firebaseConn;
   const fbAuth = getAuth(fbApp);
+  //const fbDb = getFirestore(fbApp);
 
   const [formMessage, setFormMessage] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -39,8 +42,7 @@ const SignInForm = (props) => {
         username.current.value,
         password.current.value
       )
-        .then((res) => {
-          authCtx.login(res.user.accessToken, res.user.email, res.user.uid);
+        .then(() => {
           setFormMessage("Welcome Back!");
           setFormSubmitted(true);
           setTimeout(function () {

@@ -5,11 +5,13 @@ import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
 import SignInForm from "./components/Authentication/SignInForm";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import SignOutWarning from "./components/Authentication/SignOutWarning";
 import { initializeApp } from "firebase/app";
 import AuthContext from "./components/Authentication/Context/auth-context";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -24,13 +26,19 @@ const firebaseConfig = {
 function App() {
   const firebaseApp = initializeApp(firebaseConfig);
   const fbAuth = getAuth(firebaseApp);
-
+  const fbDb = getFirestore(firebaseApp);
   const authCtx = useContext(AuthContext);
-  console.log(authCtx.email, authCtx.isLoggedIn);
+  //console.log(authCtx.email, authCtx.isLoggedIn);
 
   onAuthStateChanged(fbAuth, (user) => {
     if (user) {
+      //console.log(user);
       authCtx.login(user.accessToken, user.email, user.uid);
+      const docRef = doc(fbDb, "users", user.uid);
+      //console.log(docRef);
+      getDoc(docRef).then((res) => {
+        authCtx.updateAdminStatus(res.data().isAdmin);
+      });
     }
   });
 
@@ -39,7 +47,10 @@ function App() {
       <Header></Header>
       <main>
         <Routes>
-          <Route path="/schedule" element={<Schedule />} />
+          <Route
+            path="/schedule"
+            element={<Schedule firebaseConn={firebaseApp} />}
+          />
           <Route path="/profile" element={<Profile />} />
           <Route
             path="/signupform"

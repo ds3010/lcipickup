@@ -10,8 +10,8 @@ const AuthContext = React.createContext({
   gamesPlayed: [],
   phoneNumber: "",
   updategames: (games) => {},
-  updateProfile: (displayName, phoneNumber, isAdmin) => {},
-  //
+  updateProfile: (displayName, phoneNumber) => {},
+  updateAdminStatus: (isAdmin) => {},
   login: (token, email, userId) => {},
   logout: () => {},
 });
@@ -29,18 +29,11 @@ export const AuthContextProvider = (props) => {
   // console.log("In Context: ", userIsLoggedIn);
 
   const loginHandler = (token, email, userId) => {
-    //console.log("LOGIN HANDLER");
-    //console.log("Changing Context with: " + token, email, userId);
     setToken(token);
     setEmail(email);
     setUserId(userId);
-    //setIsAdmin(isAdmin);
-    //setphoneNumber(phoneNumber);
-    // console.log(userId)
   };
   const logoutHandler = () => {
-    //console.log("LOGOUT HANDLER");
-    //console.log("LOGOUT HANDLER CALLED, SETTING TOKEN TO NULL");
     setToken(null);
     setUserId(null);
     setEmail(null);
@@ -52,8 +45,6 @@ export const AuthContextProvider = (props) => {
 
   //NEW
   const updateProfileHandler = (displayName, phoneNumber, isAdmin) => {
-    //console.log(displayName, phoneNumber, street, city, postalCode, country);
-    //console.log("UPDATE PROFILE HANDLER");
     setdisplayName(displayName);
     setphoneNumber(phoneNumber);
     setIsAdmin(isAdmin);
@@ -62,7 +53,12 @@ export const AuthContextProvider = (props) => {
   const updategamesHandler = (games) => {
     setgames(games);
   };
-  //
+
+  const adminHandler = (isAdmin) => {
+    // console.log("Is this user admin?:", isAdmin);
+    setIsAdmin(isAdmin);
+  };
+
   const contextValue = {
     token: token,
     email: email,
@@ -72,6 +68,7 @@ export const AuthContextProvider = (props) => {
     isAdmin: isAdmin,
     login: loginHandler,
     logout: logoutHandler,
+    updateAdminStatus: adminHandler,
     games: games,
     phoneNumber: phoneNumber,
     updateProfile: updateProfileHandler,
