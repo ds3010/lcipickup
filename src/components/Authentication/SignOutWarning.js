@@ -15,7 +15,6 @@ const SignOutWarning = (props) => {
     const onLogoutHandler = () => {
         setIsLoggedOut(true)
         setTimeout(function () {
-            props.onUserLogout();
             navigate(-1)
         }, 2000)
     }

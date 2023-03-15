@@ -5,9 +5,10 @@ import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
 import SignInForm from "./components/Authentication/SignInForm";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import SignOutWarning from "./components/Authentication/SignOutWarning";
 import { initializeApp } from "firebase/app";
+import AuthContext from "./components/Authentication/Context/auth-context";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -22,20 +23,13 @@ const firebaseConfig = {
 function App() {
 
   const firebaseApp = initializeApp(firebaseConfig);
+  
+  const authCtx = useContext(AuthContext)
+  console.log('App.js', authCtx.isLoggedIn)
 
-  const [loggedIn, setLoggedIn] = useState(false)
-
-  const onUserLogin = () => {
-    //console.log('App.js NOW')
-    setLoggedIn(true)
-  }
-
-  const onUserLogout = () => {
-    setLoggedIn(false)
-  }
   return (
     <div className="App">
-      <Header userLoggedIn={loggedIn} onUserLogout={onUserLogout}></Header>
+      <Header></Header>
       <main>
         <Routes>
           <Route
@@ -48,15 +42,15 @@ function App() {
           />
           <Route
             path="/signupform"
-            element={<SignUpForm onUserLogin={onUserLogin} firebaseConn={firebaseApp}/>}
+            element={<SignUpForm firebaseConn={firebaseApp}/>}
           />
           <Route
             path="/signinform"
-            element={<SignInForm onUserLogin={onUserLogin} firebaseConn={firebaseApp}/>}
+            element={<SignInForm firebaseConn={firebaseApp}/>}
           />
           <Route
             path="/signout"
-            element={<SignOutWarning onUserLogout={onUserLogout} firebaseConn={firebaseApp}/>}
+            element={<SignOutWarning firebaseConn={firebaseApp}/>}
           />
           <Route path="/" element={<Home />} />
         </Routes>

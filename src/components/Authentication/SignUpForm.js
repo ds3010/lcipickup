@@ -1,9 +1,8 @@
 import ModalScreen from "../UI/ModalScreen";
-import { useRef, useState } from "react";
+import { useRef, useState,useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-//import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
+import AuthContext from "./Context/auth-context";
 import {
   getFirestore,
   collection,
@@ -17,21 +16,15 @@ const SignUpForm = (props) => {
   const username = useRef();
   const password = useRef();
   const password2 = useRef();
-
-  //console.log(props.firebaseConn)
+  
   const fbApp = props.firebaseConn;
   const fbAuth = getAuth(fbApp);
   const fbdB = getFirestore(fbApp);
-  //console.log(fbdB);
-  //const fbAuth = props.firebaseConn.auth();
-  //console.log(fbAuth)
-  //const app = initializeApp(props.firebaseConfig);
-  //console.log(app)
-
-  //const analytics = getAnalytics(app);
-
+  
+  const authCtx = useContext(AuthContext)
+  
   const navigate = useNavigate();
-
+  
   const [formMessage, setFormMessage] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -60,7 +53,7 @@ const SignUpForm = (props) => {
         password.current.value
       )
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           //Creating a user collection document
           const usersRef = doc(fbdB, "users", res.user.uid);
           setDoc(
@@ -77,8 +70,12 @@ const SignUpForm = (props) => {
           );
           setFormMessage("Welcome!");
           setFormSubmitted(true);
+          authCtx.login(
+            res.user.accessToken,
+            res.user.email,
+            res.user.uid
+          );
           setTimeout(function () {
-            props.onUserLogin();
             onCloseHandler();
           }, 2000);
         })
@@ -88,6 +85,8 @@ const SignUpForm = (props) => {
         });
     }
   };
+
+  //console.log(authCtx.userId)
 
   // if (setFormSubmitted) {
   //     setInterval(props.onUserLogin(), 2000);
