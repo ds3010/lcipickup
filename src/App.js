@@ -5,13 +5,18 @@ import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
 import SignInForm from "./components/Authentication/SignInForm";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import SignOutWarning from "./components/Authentication/SignOutWarning";
 import { initializeApp } from "firebase/app";
 import AuthContext from "./components/Authentication/Context/auth-context";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  getDocs,
+  collection,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -30,6 +35,9 @@ function App() {
   const authCtx = useContext(AuthContext);
   //console.log(authCtx.email, authCtx.isLoggedIn);
 
+  //Variable to store all games from firebase
+  const [scheduleDocsRef, setScheduleDocsRef] = useState(null);
+
   onAuthStateChanged(fbAuth, (user) => {
     if (user) {
       //console.log(user);
@@ -42,6 +50,18 @@ function App() {
     }
   });
 
+  //Cant update the scheduleDocsRef with the below code
+  // useEffect(() => {
+  //   const colRef = collection(fbDb, "schedule");
+  //   console.log(colRef);
+  //   setScheduleDocsRef(colRef);
+  //   getDocs(colRef).then((res) => {
+  //     res.forEach((doc) => {
+  //       console.log(doc.data());
+  //     });
+  //   });
+  // }, []);
+
   return (
     <div className="App">
       <Header></Header>
@@ -49,7 +69,9 @@ function App() {
         <Routes>
           <Route
             path="/schedule"
-            element={<Schedule firebaseConn={firebaseApp} />}
+            element={
+              <Schedule firebaseConn={firebaseApp} schedule={scheduleDocsRef} />
+            }
           />
           <Route path="/profile" element={<Profile />} />
           <Route

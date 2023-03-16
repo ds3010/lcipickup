@@ -6,6 +6,8 @@ import NewGameForm from "./NewGameForm";
 //import { doc, getDoc } from "firebase/firestore";
 
 const Schedule = (props) => {
+  //console.log(props.schedule);
+
   const authCtx = useContext(AuthContext);
   //   console.log(authCtx.isAdmin);
   const [isAdding, setIsAdding] = useState(false);
