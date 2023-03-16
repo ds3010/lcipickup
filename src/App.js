@@ -5,7 +5,7 @@ import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
 import SignInForm from "./components/Authentication/SignInForm";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState} from "react";
 import SignOutWarning from "./components/Authentication/SignOutWarning";
 import { initializeApp } from "firebase/app";
 import AuthContext from "./components/Authentication/Context/auth-context";
@@ -14,8 +14,6 @@ import {
   doc,
   getDoc,
   getFirestore,
-  getDocs,
-  collection,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -50,17 +48,7 @@ function App() {
     }
   });
 
-  //Cant update the scheduleDocsRef with the below code
-  // useEffect(() => {
-  //   const colRef = collection(fbDb, "schedule");
-  //   console.log(colRef);
-  //   setScheduleDocsRef(colRef);
-  //   getDocs(colRef).then((res) => {
-  //     res.forEach((doc) => {
-  //       console.log(doc.data());
-  //     });
-  //   });
-  // }, []);
+
 
   return (
     <div className="App">
