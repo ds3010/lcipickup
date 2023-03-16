@@ -61,7 +61,7 @@ const NewGameForm = (props) => {
     setaddGameBtnReady(true);
   };
 
-  for (var i = 0; i < numberOfTimeOptions; i++) {
+  for (let i = 0; i < numberOfTimeOptions; i++) {
     timeOptions.push(<NewTimeOptionForm key={i} onTimeAdded={onTimeAdded} />);
   }
   const onCloseHandler = () => {
