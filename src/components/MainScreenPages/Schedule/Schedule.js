@@ -14,7 +14,7 @@ const Schedule = (props) => {
   let games = [];
   const fbDb = getFirestore(props.firebaseApp);
 
-  //Cant update the scheduleDocsRef with the below code
+  //Getting the Schedule collection reference
   useEffect(() => {
     const colRef = collection(fbDb, "schedule");
     //console.log(colRef);
