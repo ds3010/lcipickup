@@ -1,43 +1,69 @@
 import { Button } from "react-bootstrap";
 import { useRef, useState } from "react";
 import { getFirestore, doc, setDoc } from "firebase/firestore/lite";
+import NewTimeOptionForm from "./NewTimeOptionForm";
 
 const NewGameForm = (props) => {
   const date = useRef();
-  const timeFrom = useRef();
-  const timeTo = useRef();
-  const cost = useRef();
+  // const timeFrom = useRef();
+  // const timeTo = useRef();
+  // const cost = useRef();
 
-  const [newGameAdded, setNewGameAdded] = useState(false);
+  const [numberOfTimeOptions, setNumberOfTimeOptions] = useState(1);
+  const [timeOptionComplete, settimeOptionComplete] = useState(false);
+  const [addGameBtnReady, setaddGameBtnReady] = useState(false);
+
+  let timeOptions = [];
+  // const [newGameAdded, setNewGameAdded] = useState(false);
 
   const fbApp = props.firebaseApp;
-  const fbdB = getFirestore(fbApp);
+  // const fbdB = getFirestore(fbApp);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Game to be added to schedule");
-    console.log(
-      date.current.value,
-      timeFrom.current.value,
-      timeTo.current.value,
-      cost.current.value
-    );
-    const usersRef = doc(fbdB, "schedule", date.current.value);
-    setDoc(
-      usersRef,
-      {
-        timeFrom: timeFrom.current.value,
-        timeTo: timeTo.current.value,
-        cost: cost.current.value,
-      },
-      { merge: true }
-    );
-    setNewGameAdded(true);
-    setTimeout(function () {
-      props.stopAdding();
-    }, 2000);
+    console.log("TO DO: Submit game to firebase and context");
+    // const usersRef = doc(fbdB, "schedule", date.current.value);
+    // setDoc(
+    //   usersRef,
+    //   {
+    //     // date: date.current.value,
+    //     // timeFrom: timeFrom.current.value,
+    //     // timeTo: timeTo.current.value,
+    //     // cost: cost.current.value,
+    //     date: date.current.value,
+    //     id: 1,
+    //     options: [
+    //       {
+    //         time: "5pm to 6pm",
+    //         price: cost.current.value,
+    //         id: 0,
+    //         date: date.current.value,
+    //       },
+    //     ],
+    //   },
+    //   { merge: true }
+    // );
+    // setNewGameAdded(true);
+    // setTimeout(function () {
+    //   props.stopAdding();
+    // }, 2000);
   };
 
+  const onAddingOption = () => {
+    setNumberOfTimeOptions((prevState) => prevState + 1);
+    settimeOptionComplete(false);
+    setaddGameBtnReady(false);
+  };
+  //console.log(numberOfTimeOptions);
+
+  const onTimeAdded = () => {
+    settimeOptionComplete(true);
+    setaddGameBtnReady(true);
+  };
+
+  for (var i = 0; i < numberOfTimeOptions; i++) {
+    timeOptions.push(<NewTimeOptionForm key={i} onTimeAdded={onTimeAdded} />);
+  }
   const onCloseHandler = () => {
     props.stopAdding();
   };
@@ -48,7 +74,9 @@ const NewGameForm = (props) => {
         <input ref={date} className="form-control" type="date" id="date" />
       </div>
       <br />
-      <div className="row">
+
+      {timeOptions}
+      {/* <div className="row">
         <div className="form-group col-6">
           <label htmlFor="time">Time From</label>
           <input
@@ -74,19 +102,45 @@ const NewGameForm = (props) => {
           id="cost"
         />
         <br />
-      </div>
+      </div> */}
+
+      {timeOptionComplete ? (
+        <Button
+          className="m-1"
+          type="button"
+          variant="primary"
+          onClick={onAddingOption}
+        >
+          Add More Time Options
+        </Button>
+      ) : (
+        <Button
+          className="m-1 disabled"
+          type="button"
+          variant="primary"
+          onClick={onAddingOption}
+        >
+          Add More Time Options
+        </Button>
+      )}
 
       <Button className="m-1" variant="secondary" onClick={onCloseHandler}>
         Cancel
       </Button>
-      <Button className="m-1" type="submit" variant="primary">
-        Add Game to Schedule
-      </Button>
-      {newGameAdded && (
+      {addGameBtnReady ? (
+        <Button className="m-1" type="submit" variant="primary">
+          Add Game to Schedule
+        </Button>
+      ) : (
+        <Button className="m-1 disabled" type="submit" variant="primary">
+          Add Game to Schedule
+        </Button>
+      )}
+      {/* {newGameAdded && (
         <div className="alert alert-success">
           <strong>"New Game has been added to Schedule"</strong>
         </div>
-      )}
+      )} */}
     </form>
   );
 };

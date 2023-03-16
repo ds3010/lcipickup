@@ -10,7 +10,8 @@ const Schedule = (props) => {
   //console.log(props.schedule);
   const [isAdding, setIsAdding] = useState(false);
   const [scheduleDocsRef, setScheduleDocsRef] = useState(null);
-  console.log(scheduleDocsRef);
+  const [gamesAvailable, setGames] = useState([]);
+  //console.log(scheduleDocsRef);
   let games = [];
   const fbDb = getFirestore(props.firebaseApp);
 
@@ -26,74 +27,77 @@ const Schedule = (props) => {
     getDocs(scheduleDocsRef).then((res) => {
       res.forEach((doc) => {
         games.push(doc.data());
-        console.log(doc.data().timeTo);
-        console.log(doc.data().timeFrom);
-        console.log(doc.data().cost);
+        //console.log(doc);
+        //console.log(doc.data().timeFrom);
+        //console.log(doc.data().cost);
       });
     });
+    setGames(games);
+    setScheduleDocsRef(null);
   }
-
-  console.log(games);
+  //setGames(games);
+  //console.log(gamesAvailable);
+  console.log(gamesAvailable);
 
   const authCtx = useContext(AuthContext);
   //   console.log(authCtx.isAdmin);
 
-  const DUMMY_GAMES = [
-    {
-      date: "Sunday, March 12th, 2023",
-      id: 0,
-      options: [
-        {
-          time: "4pm to 6pm",
-          price: "20CAD",
-          id: 0,
-          date: "Sunday, March 12th, 2023",
-        },
-        {
-          time: "5pm to 6pm",
-          price: "18CAD",
-          id: 1,
-          date: "Sunday, March 12th, 2023",
-        },
-      ],
-    },
-    {
-      date: "Sunday, March 19th, 2023",
-      id: 1,
-      options: [
-        {
-          time: "4pm to 6pm",
-          price: "20CAD",
-          id: 0,
-          date: "Sunday, March 19th, 2023",
-        },
-        {
-          time: "5pm to 6pm",
-          price: "18CAD",
-          id: 1,
-          date: "Sunday, March 19th, 2023",
-        },
-      ],
-    },
-    {
-      date: "Sunday, March 26th, 2023",
-      id: 2,
-      options: [
-        {
-          time: "4pm to 6pm",
-          price: "20CAD",
-          id: 0,
-          date: "Sunday, March 26th, 2023",
-        },
-        {
-          time: "5pm to 6pm",
-          price: "18CAD",
-          id: 1,
-          date: "Sunday, March 26th, 2023",
-        },
-      ],
-    },
-  ];
+  // const DUMMY_GAMES = [
+  //   {
+  //     date: "Sunday, March 12th, 2023",
+  //     id: 0,
+  //     options: [
+  //       {
+  //         time: "4pm to 6pm",
+  //         price: "20CAD",
+  //         id: 0,
+  //         date: "Sunday, March 12th, 2023",
+  //       },
+  //       {
+  //         time: "5pm to 6pm",
+  //         price: "18CAD",
+  //         id: 1,
+  //         date: "Sunday, March 12th, 2023",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     date: "Sunday, March 19th, 2023",
+  //     id: 1,
+  //     options: [
+  //       {
+  //         time: "4pm to 6pm",
+  //         price: "20CAD",
+  //         id: 0,
+  //         date: "Sunday, March 19th, 2023",
+  //       },
+  //       {
+  //         time: "5pm to 6pm",
+  //         price: "18CAD",
+  //         id: 1,
+  //         date: "Sunday, March 19th, 2023",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     date: "Sunday, March 26th, 2023",
+  //     id: 2,
+  //     options: [
+  //       {
+  //         time: "4pm to 6pm",
+  //         price: "20CAD",
+  //         id: 0,
+  //         date: "Sunday, March 26th, 2023",
+  //       },
+  //       {
+  //         time: "5pm to 6pm",
+  //         price: "18CAD",
+  //         id: 1,
+  //         date: "Sunday, March 26th, 2023",
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const onAddingGameHandler = () => {
     setIsAdding(true);
@@ -124,9 +128,10 @@ const Schedule = (props) => {
         )}
       </div>
       <div id="accordion">
-        {DUMMY_GAMES.map((game) => (
-          <Game data={game} key={game.id}></Game>
-        ))}
+        {gamesAvailable.length > 0 &&
+          gamesAvailable.map((game) => (
+            <Game data={game} key={game.date}></Game>
+          ))}
       </div>
     </>
   );
