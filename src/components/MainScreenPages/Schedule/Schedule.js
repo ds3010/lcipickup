@@ -87,7 +87,12 @@ const Schedule = (props) => {
           </Button>
         )}
         <br />
-        {isAdding && <NewGameForm stopAdding={stopAddingHandler}></NewGameForm>}
+        {isAdding && (
+          <NewGameForm
+            stopAdding={stopAddingHandler}
+            firebaseApp={props.firebaseConn}
+          ></NewGameForm>
+        )}
       </div>
       <div id="accordion">
         {DUMMY_GAMES.map((game) => (

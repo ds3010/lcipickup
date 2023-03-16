@@ -1,11 +1,17 @@
 import { Button } from "react-bootstrap";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { getFirestore, doc, setDoc } from "firebase/firestore/lite";
 
 const NewGameForm = (props) => {
   const date = useRef();
   const timeFrom = useRef();
   const timeTo = useRef();
   const cost = useRef();
+
+  const [newGameAdded, setNewGameAdded] = useState(false);
+
+  const fbApp = props.firebaseApp;
+  const fbdB = getFirestore(fbApp);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,8 +21,21 @@ const NewGameForm = (props) => {
       timeFrom.current.value,
       timeTo.current.value,
       cost.current.value
-      //TODO: Submit new game properly to firebase
     );
+    const usersRef = doc(fbdB, "schedule", date.current.value);
+    setDoc(
+      usersRef,
+      {
+        timeFrom: timeFrom.current.value,
+        timeTo: timeTo.current.value,
+        cost: cost.current.value,
+      },
+      { merge: true }
+    );
+    setNewGameAdded(true);
+    setTimeout(function () {
+      props.stopAdding();
+    }, 2000);
   };
 
   const onCloseHandler = () => {
@@ -63,6 +82,11 @@ const NewGameForm = (props) => {
       <Button className="m-1" type="submit" variant="primary">
         Add Game to Schedule
       </Button>
+      {newGameAdded && (
+        <div className="alert alert-success">
+          <strong>"New Game has been added to Schedule"</strong>
+        </div>
+      )}
     </form>
   );
 };

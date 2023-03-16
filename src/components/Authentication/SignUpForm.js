@@ -64,12 +64,8 @@ const SignUpForm = (props) => {
           );
           setFormMessage("Welcome!");
           setFormSubmitted(true);
-          authCtx.login(
-            res.user.accessToken,
-            res.user.email,
-            res.user.uid,
-          );
-          authCtx.updateAdminStatus(false)
+          authCtx.login(res.user.accessToken, res.user.email, res.user.uid);
+          authCtx.updateAdminStatus(false);
           setTimeout(function () {
             onCloseHandler();
           }, 2000);
