@@ -24,6 +24,7 @@ const NewGameForm = (props) => {
       timeTo: timeTo,
       cost: cost,
       id: id,
+      date: dateTyped,
       //date: "Sunday, March 26th, 2023",
     });
     setOptions(newArray);

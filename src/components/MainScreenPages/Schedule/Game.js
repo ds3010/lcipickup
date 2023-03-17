@@ -54,14 +54,14 @@ const Game = (props) => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name={option.id}
-                  id={option.id}
+                  name={option.date}
+                  id={option.date}
                   onChange={onOptionSelected}
                 />
                 <label className="form-check-label">
                   {/* {" "} */}
                   {option.timeFrom + " to " + option.timeTo}
-                  <p className="d-inline text-monospace">({option.cost})</p>
+                  <p className="d-inline text-monospace"> ({option.cost}CAD)</p>
                 </label>
               </div>
             ))}
