@@ -27,9 +27,9 @@ const Schedule = (props) => {
     getDocs(scheduleDocsRef).then((res) => {
       res.forEach((doc) => {
         games.push(doc.data());
-        //console.log(doc);
-        //console.log(doc.data().timeFrom);
-        //console.log(doc.data().cost);
+        console.log(doc);
+        console.log(doc.data().timeFrom);
+        console.log(doc.data().cost);
       });
     });
     setGames(games);

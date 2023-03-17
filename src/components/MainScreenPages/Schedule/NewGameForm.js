@@ -1,128 +1,145 @@
 import { Button } from "react-bootstrap";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { getFirestore, doc, setDoc } from "firebase/firestore/lite";
 import NewTimeOptionForm from "./NewTimeOptionForm";
 
 const NewGameForm = (props) => {
   const date = useRef();
-  // const timeFrom = useRef();
-  // const timeTo = useRef();
-  // const cost = useRef();
 
   const [numberOfTimeOptions, setNumberOfTimeOptions] = useState(1);
-  const [timeOptionComplete, settimeOptionComplete] = useState(false);
   const [addGameBtnReady, setaddGameBtnReady] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [dateTyped, setDateTyped] = useState("");
+  const [newGameAdded, setNewGameAdded] = useState(false);
 
-  let timeOptions = [];
-  // const [newGameAdded, setNewGameAdded] = useState(false);
-
-  const fbApp = props.firebaseApp;
-  // const fbdB = getFirestore(fbApp);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("TO DO: Submit game to firebase and context");
-    // const usersRef = doc(fbdB, "schedule", date.current.value);
-    // setDoc(
-    //   usersRef,
-    //   {
-    //     // date: date.current.value,
-    //     // timeFrom: timeFrom.current.value,
-    //     // timeTo: timeTo.current.value,
-    //     // cost: cost.current.value,
-    //     date: date.current.value,
-    //     id: 1,
-    //     options: [
-    //       {
-    //         time: "5pm to 6pm",
-    //         price: cost.current.value,
-    //         id: 0,
-    //         date: date.current.value,
-    //       },
-    //     ],
-    //   },
-    //   { merge: true }
-    // );
-    // setNewGameAdded(true);
-    // setTimeout(function () {
-    //   props.stopAdding();
-    // }, 2000);
+  //The following code keeps track of the date typed in order to set the date state
+  const onAddingDate = () => {
+    setDateTyped(date.current.value);
+  };
+  //The following function is called by the NewTimeOptionForm.js component whenever a time option has been added and updates the "options" state array
+  const onTimeAdded = (timeFrom, timeTo, cost, id) => {
+    let newArray = [...options];
+    newArray.push({
+      timeFrom: timeFrom,
+      timeTo: timeTo,
+      cost: cost,
+      id: id,
+      //date: "Sunday, March 26th, 2023",
+    });
+    setOptions(newArray);
   };
 
+  //The following function is called by the NewTimeOptionForm.js component whenever a time option has been removed and deletes the correct option from the "options" state array
+  const onTimeRemoved = (id) => {
+    let newArray = [...options];
+    newArray.splice(id - 1, 1);
+    setNumberOfTimeOptions((prevState) => prevState - 1);
+    setOptions(newArray);
+  };
+
+  //The following function tracks everytime the date typed or the options array have changed and in case both are valid, the button to submit the game is enabled
+  useEffect(() => {
+    if (dateTyped.includes("-") && options.length > 0) {
+      setaddGameBtnReady(true);
+    }
+  }, [dateTyped, options]);
+
+  //Whenever the user decides to add an extra time option, we increase the number of time options by one
   const onAddingOption = () => {
     setNumberOfTimeOptions((prevState) => prevState + 1);
-    settimeOptionComplete(false);
-    setaddGameBtnReady(false);
-  };
-  //console.log(numberOfTimeOptions);
-
-  const onTimeAdded = () => {
-    settimeOptionComplete(true);
-    setaddGameBtnReady(true);
   };
 
+  //The following code renders as many time option-forms as the administrator has decided to add
+  //Remember that this code is rendered at every refresh, so if an option is removed, we have to make sure we pass the right props to each time option
+  //so that the component is rendered unchanged (better UX)
+  let timeOptions = [];
   for (let i = 0; i < numberOfTimeOptions; i++) {
-    timeOptions.push(<NewTimeOptionForm key={i} onTimeAdded={onTimeAdded} />);
+    let timeFrom = "";
+    let timeTo = "";
+    let cost = "";
+    if (!!options[i]) {
+      timeFrom = options[i].timeFrom;
+      timeTo = options[i].timeTo;
+      cost = options[i].cost;
+    } else {
+    }
+    timeOptions.push(
+      <NewTimeOptionForm
+        key={i + 1}
+        id={i + 1}
+        timeFrom={timeFrom}
+        timeTo={timeTo}
+        cost={cost}
+        onTimeAdded={onTimeAdded}
+        onTimeRemoved={onTimeRemoved}
+      />
+    );
   }
+
+  //Next code uploads the game to firebase and enables the alert that lets the user know the game was added successfully
+  const fbApp = props.firebaseApp;
+  const fbdB = getFirestore(fbApp);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(
+      "TO DO: Remove comments whenever Game.js is fixed with the new format"
+    );
+
+    const usersRef = doc(fbdB, "schedule", dateTyped);
+    setDoc(
+      usersRef,
+      {
+        date: dateTyped,
+        options: options,
+      },
+      { merge: true }
+    );
+    setNewGameAdded(true);
+    setTimeout(function () {
+      props.stopAdding();
+    }, 2000);
+  };
+
+  //Code to close the game option to stop adding
   const onCloseHandler = () => {
     props.stopAdding();
   };
+  console.log(dateTyped);
+  //JSX
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="date">Date</label>
-        <input ref={date} className="form-control" type="date" id="date" />
+        {dateTyped.includes("-") ? (
+          <input
+            ref={date}
+            className="form-control is-valid"
+            type="date"
+            id="date"
+            onChange={onAddingDate}
+          />
+        ) : (
+          <input
+            ref={date}
+            className="form-control"
+            type="date"
+            id="date"
+            onChange={onAddingDate}
+          />
+        )}
       </div>
       <br />
 
       {timeOptions}
-      {/* <div className="row">
-        <div className="form-group col-6">
-          <label htmlFor="time">Time From</label>
-          <input
-            ref={timeFrom}
-            className="form-control"
-            type="time"
-            id="time"
-          />
-        </div>
-        <div className="form-group col-6">
-          <label htmlFor="time">Time To</label>
-          <input ref={timeTo} className="form-control" type="time" id="time" />
-        </div>
-      </div>
-      <br />
-      <div className="form-group">
-        <label htmlFor="cost">Cost per Player</label>
-        <input
-          ref={cost}
-          className="form-control"
-          type="number"
-          step="any"
-          id="cost"
-        />
-        <br />
-      </div> */}
 
-      {timeOptionComplete ? (
-        <Button
-          className="m-1"
-          type="button"
-          variant="primary"
-          onClick={onAddingOption}
-        >
-          Add More Time Options
-        </Button>
-      ) : (
-        <Button
-          className="m-1 disabled"
-          type="button"
-          variant="primary"
-          onClick={onAddingOption}
-        >
-          Add More Time Options
-        </Button>
-      )}
+      <Button
+        className="m-1"
+        type="button"
+        variant="primary"
+        onClick={onAddingOption}
+      >
+        Add a Time Option
+      </Button>
 
       <Button className="m-1" variant="secondary" onClick={onCloseHandler}>
         Cancel
@@ -136,11 +153,11 @@ const NewGameForm = (props) => {
           Add Game to Schedule
         </Button>
       )}
-      {/* {newGameAdded && (
+      {newGameAdded && (
         <div className="alert alert-success">
           <strong>"New Game has been added to Schedule"</strong>
         </div>
-      )} */}
+      )}
     </form>
   );
 };
