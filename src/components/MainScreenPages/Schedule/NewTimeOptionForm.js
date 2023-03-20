@@ -10,6 +10,9 @@ const NewTimeOptionForm = (props) => {
   //After removing a time option, if other options were configured and have already been applied, we will receive these values as props
   //from NewGameForm.js and we should automatically set those values so the admin doesn't need to add them again
   if (props.timeFrom !== "" && props.timeTo !== "" && props.cost !== "") {
+    console.log(timeFrom.current);
+    console.log(timeTo.current);
+    console.log(cost.current);
     timeFrom.current.value = props.timeFrom;
     timeTo.current.value = props.timeTo;
     cost.current.value = props.cost;
@@ -87,7 +90,7 @@ const NewTimeOptionForm = (props) => {
         {/* Disabling the button if the time has already been accepted */}
         {!timeAccepted ? (
           <Button type="button" className="m-1 btn-success" onClick={onAccept}>
-            Accept New Time
+            Confirm Time
           </Button>
         ) : (
           <Button
@@ -95,11 +98,11 @@ const NewTimeOptionForm = (props) => {
             className="m-1 btn-success disabled"
             onClick={onAccept}
           >
-            Accept New Time
+            Confirm Time
           </Button>
         )}
         <Button type="button" className="m-1 btn-danger" onClick={onRemove}>
-          Remove Option
+          Remove
         </Button>
         {!timeAccepted && inputClass === "is-invalid" && (
           <div className="alert alert-danger text-center">

@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Button } from "react-bootstrap";
+import AuthContext from "../../Authentication/Context/auth-context";
+import { useNavigate } from "react-router-dom";
 
 const Game = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [btnActive, setBtnActive] = useState(false);
 
-  //console.log(props.data.options)
+  const authCtx = useContext(AuthContext);
 
   const expandOrCollapse = () => {
     setIsActive((prev) => {
@@ -21,6 +24,12 @@ const Game = (props) => {
     ? "btn btn-secondary col-12"
     : "btn btn-secondary col-12 disabled";
 
+  const navigate = useNavigate();
+
+  const onEditingHandler = () => {
+    navigate("/editgame/" + props.data.date);
+  };
+
   return (
     <div className="card container">
       <div className="d-flex justify-content-between card-header">
@@ -35,15 +44,36 @@ const Game = (props) => {
             {props.data.date}
           </a>
         </h5>
-        {isActive ? (
-          <h5 role="button" className="align-top" onClick={expandOrCollapse}>
-            -
-          </h5>
-        ) : (
-          <h5 role="button" className="align-top" onClick={expandOrCollapse}>
-            +
-          </h5>
-        )}
+
+        <div className="d-flex">
+          {authCtx.isLoggedIn && (
+            <div>
+              <Button className="m-1" onClick={onEditingHandler}>
+                Edit
+              </Button>
+              <Button className="m-1 btn-danger">Delete</Button>
+            </div>
+          )}
+          <div>
+            {isActive ? (
+              <h5
+                role="button"
+                className="align-top"
+                onClick={expandOrCollapse}
+              >
+                -
+              </h5>
+            ) : (
+              <h5
+                role="button"
+                className="align-top"
+                onClick={expandOrCollapse}
+              >
+                +
+              </h5>
+            )}
+          </div>
+        </div>
       </div>
 
       {isActive && (
@@ -66,9 +96,15 @@ const Game = (props) => {
               </div>
             ))}
           </div>
-          <button className={btnClasses} type="button">
-            Play!
-          </button>
+          {!authCtx.isLoggedIn ? (
+            <button className={btnClasses} type="button">
+              Play!
+            </button>
+          ) : (
+            <div className="alert alert-success text-center">
+              <strong>"As an admin, you are already playing by default"</strong>
+            </div>
+          )}
         </div>
       )}
     </div>

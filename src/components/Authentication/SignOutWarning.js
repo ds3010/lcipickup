@@ -36,7 +36,7 @@ const SignOutWarning = (props) => {
   };
 
   return (
-    <ModalScreen title="Sign Out" btnText="">
+    <ModalScreen title="Sign Out">
       <p>Are you sure you want to sign out?</p>
       <Button className="m-1" variant="secondary" onClick={onCloseHandler}>
         Close

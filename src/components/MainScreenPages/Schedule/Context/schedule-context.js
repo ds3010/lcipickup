@@ -11,7 +11,7 @@ export const ScheduleContextProvider = (props) => {
   const [games, setGames] = useState([]);
 
   const addGameHandler = (game) => {
-    console.log("Adding Game: ", game);
+    //console.log("Adding Game: ", game);
     setGames((prevState) => [...prevState, game]);
     //console.log("Adding Game TODO. schedule-context.js");
   };
@@ -28,7 +28,7 @@ export const ScheduleContextProvider = (props) => {
   };
 
   const clearGamesHandler = () => {
-    console.log("Clearing Games: ");
+    //console.log("Clearing Games: ");
     //console.log(games);
     setGames("");
   };

@@ -1,12 +1,13 @@
 import Game from "./Game";
 import AuthContext from "../../Authentication/Context/auth-context";
 import ScheduleContext from "./Context/schedule-context";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import NewGameForm from "./NewGameForm";
 
 const Schedule = (props) => {
   const [isAdding, setIsAdding] = useState(false);
+  console.log(props.firebaseConn);
 
   const ScheduleCtx = useContext(ScheduleContext);
   const authCtx = useContext(AuthContext);
@@ -36,6 +37,7 @@ const Schedule = (props) => {
           <NewGameForm
             stopAdding={stopAddingHandler}
             firebaseApp={props.firebaseConn}
+            date={""}
           ></NewGameForm>
         )}
       </div>

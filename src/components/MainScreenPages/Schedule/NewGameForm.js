@@ -6,6 +6,7 @@ import ScheduleContext from "./Context/schedule-context";
 
 const NewGameForm = (props) => {
   const date = useRef();
+  //console.log(props.date, props.firebaseApp);
 
   const [numberOfTimeOptions, setNumberOfTimeOptions] = useState(1);
   const [addGameBtnReady, setaddGameBtnReady] = useState(false);
@@ -65,7 +66,9 @@ const NewGameForm = (props) => {
       timeFrom = options[i].timeFrom;
       timeTo = options[i].timeTo;
       cost = options[i].cost;
-    } else {
+      // console.log(timeFrom);
+      // console.log(timeTo);
+      // console.log(cost);
     }
     timeOptions.push(
       <NewTimeOptionForm
@@ -83,6 +86,7 @@ const NewGameForm = (props) => {
   //Next code uploads the game to firebase, updates the Schedule context and enables the alert that lets the user know the game was added successfully
   const fbApp = props.firebaseApp;
   const fbdB = getFirestore(fbApp);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const gameContent = {
@@ -102,7 +106,7 @@ const NewGameForm = (props) => {
   const onCloseHandler = () => {
     props.stopAdding();
   };
-  console.log(dateTyped);
+  //console.log(dateTyped);
   //JSX
   return (
     <form onSubmit={handleSubmit}>
