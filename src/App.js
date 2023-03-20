@@ -5,15 +5,18 @@ import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
 import SignInForm from "./components/Authentication/SignInForm";
-import { useContext, useState} from "react";
+import { useContext, useEffect } from "react";
 import SignOutWarning from "./components/Authentication/SignOutWarning";
 import { initializeApp } from "firebase/app";
 import AuthContext from "./components/Authentication/Context/auth-context";
+import ScheduleContext from "./components/MainScreenPages/Schedule/Context/schedule-context";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   doc,
   getDoc,
   getFirestore,
+  collection,
+  getDocs,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -34,7 +37,21 @@ function App() {
   //console.log(authCtx.email, authCtx.isLoggedIn);
 
   //Variable to store all games from firebase
-  const [scheduleDocsRef, setScheduleDocsRef] = useState(null);
+  //const [scheduleDocsRef, setScheduleDocsRef] = useState(null);
+
+  const ScheduleCtx = useContext(ScheduleContext);
+  //Getting the Schedule collection reference
+  useEffect(() => {
+    const colRef = collection(fbDb, "schedule");
+    if (colRef !== null) {
+      getDocs(colRef).then((res) => {
+        ScheduleCtx.clearGames();
+        res.docs.forEach((doc) => {
+          ScheduleCtx.addGame(doc.data());
+        });
+      });
+    }
+  }, []);
 
   onAuthStateChanged(fbAuth, (user) => {
     if (user) {
@@ -48,8 +65,6 @@ function App() {
     }
   });
 
-
-
   return (
     <div className="App">
       <Header></Header>
@@ -57,9 +72,7 @@ function App() {
         <Routes>
           <Route
             path="/schedule"
-            element={
-              <Schedule firebaseConn={firebaseApp} schedule={scheduleDocsRef} />
-            }
+            element={<Schedule firebaseConn={firebaseApp} />}
           />
           <Route path="/profile" element={<Profile />} />
           <Route

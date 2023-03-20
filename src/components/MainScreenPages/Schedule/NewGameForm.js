@@ -1,7 +1,8 @@
 import { Button } from "react-bootstrap";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { getFirestore, doc, setDoc } from "firebase/firestore/lite";
 import NewTimeOptionForm from "./NewTimeOptionForm";
+import ScheduleContext from "./Context/schedule-context";
 
 const NewGameForm = (props) => {
   const date = useRef();
@@ -11,6 +12,8 @@ const NewGameForm = (props) => {
   const [options, setOptions] = useState([]);
   const [dateTyped, setDateTyped] = useState("");
   const [newGameAdded, setNewGameAdded] = useState(false);
+
+  const ScheduleCtx = useContext(ScheduleContext);
 
   //The following code keeps track of the date typed in order to set the date state
   const onAddingDate = () => {
@@ -77,24 +80,18 @@ const NewGameForm = (props) => {
     );
   }
 
-  //Next code uploads the game to firebase and enables the alert that lets the user know the game was added successfully
+  //Next code uploads the game to firebase, updates the Schedule context and enables the alert that lets the user know the game was added successfully
   const fbApp = props.firebaseApp;
   const fbdB = getFirestore(fbApp);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      "TO DO: Remove comments whenever Game.js is fixed with the new format"
-    );
-
+    const gameContent = {
+      date: dateTyped,
+      options: options,
+    };
     const usersRef = doc(fbdB, "schedule", dateTyped);
-    setDoc(
-      usersRef,
-      {
-        date: dateTyped,
-        options: options,
-      },
-      { merge: true }
-    );
+    setDoc(usersRef, gameContent, { merge: true });
+    ScheduleCtx.addGame(gameContent);
     setNewGameAdded(true);
     setTimeout(function () {
       props.stopAdding();
