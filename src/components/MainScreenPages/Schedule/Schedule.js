@@ -7,7 +7,6 @@ import NewGameForm from "./NewGameForm";
 
 const Schedule = (props) => {
   const [isAdding, setIsAdding] = useState(false);
-  console.log(props.firebaseConn);
 
   const ScheduleCtx = useContext(ScheduleContext);
   const authCtx = useContext(AuthContext);

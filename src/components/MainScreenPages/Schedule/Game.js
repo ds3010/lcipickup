@@ -30,6 +30,10 @@ const Game = (props) => {
     navigate("/editgame/" + props.data.date);
   };
 
+  const onDeletingHandler = () => {
+    navigate("/deletegame/" + props.data.date);
+  };
+
   return (
     <div className="card container">
       <div className="d-flex justify-content-between card-header">
@@ -51,7 +55,9 @@ const Game = (props) => {
               <Button className="m-1" onClick={onEditingHandler}>
                 Edit
               </Button>
-              <Button className="m-1 btn-danger">Delete</Button>
+              <Button className="m-1 btn-danger" onClick={onDeletingHandler}>
+                Delete
+              </Button>
             </div>
           )}
           <div>

@@ -37,6 +37,7 @@ const NewGameForm = (props) => {
   //The following function is called by the NewTimeOptionForm.js component whenever a time option has been removed and deletes the correct option from the "options" state array
   const onTimeRemoved = (id) => {
     let newArray = [...options];
+    console.log("Option to remove:", newArray[id - 1]);
     newArray.splice(id - 1, 1);
     setNumberOfTimeOptions((prevState) => prevState - 1);
     setOptions(newArray);
@@ -76,6 +77,7 @@ const NewGameForm = (props) => {
         id={i + 1}
         timeFrom={timeFrom}
         timeTo={timeTo}
+        requester="newGame"
         cost={cost}
         onTimeAdded={onTimeAdded}
         onTimeRemoved={onTimeRemoved}
@@ -133,6 +135,12 @@ const NewGameForm = (props) => {
       <br />
 
       {timeOptions}
+      <div className="alert alert-info text-center">
+        <strong>
+          Make sure to at least confirm on time option before proceeding, before
+          then the option to accept changes will not be available
+        </strong>
+      </div>
 
       <Button
         className="m-1"

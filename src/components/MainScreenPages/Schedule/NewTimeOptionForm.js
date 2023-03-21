@@ -10,13 +10,20 @@ const NewTimeOptionForm = (props) => {
   //After removing a time option, if other options were configured and have already been applied, we will receive these values as props
   //from NewGameForm.js and we should automatically set those values so the admin doesn't need to add them again
   if (props.timeFrom !== "" && props.timeTo !== "" && props.cost !== "") {
-    console.log(timeFrom.current);
-    console.log(timeTo.current);
-    console.log(cost.current);
-    timeFrom.current.value = props.timeFrom;
-    timeTo.current.value = props.timeTo;
-    cost.current.value = props.cost;
+    if (props.requester === "newGame") {
+      timeFrom.current.value = props.timeFrom;
+      timeTo.current.value = props.timeTo;
+      cost.current.value = props.cost;
+    } else if (!!timeFrom.current && !!timeTo.current && !!cost.current) {
+      timeFrom.current.value = props.timeFrom;
+      timeTo.current.value = props.timeTo;
+      cost.current.value = props.cost;
+    }
   }
+
+  // console.log(props.timeFrom);
+  // console.log(props.timeTo);
+  // console.log(props.cost);
 
   //Track state if the time option was added properly
   const [timeAccepted, setTimeAccepted] = useState(false);
@@ -56,6 +63,7 @@ const NewTimeOptionForm = (props) => {
           <label htmlFor="time">Time From</label>
           <input
             ref={timeFrom}
+            defaultValue={props.timeFrom}
             className={"form-control " + inputClass}
             type="time"
             id="time"
@@ -66,6 +74,7 @@ const NewTimeOptionForm = (props) => {
           <label htmlFor="time">Time To</label>
           <input
             ref={timeTo}
+            defaultValue={props.timeTo}
             className={"form-control " + inputClass}
             type="time"
             id="time"
@@ -78,6 +87,7 @@ const NewTimeOptionForm = (props) => {
         <label htmlFor="cost">Cost per Player</label>
         <input
           ref={cost}
+          defaultValue={props.cost}
           className={"form-control " + inputClass}
           type="number"
           step="any"

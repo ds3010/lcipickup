@@ -19,6 +19,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import EditGame from "./components/MainScreenPages/Schedule/EditGame";
+import DeleteGame from "./components/MainScreenPages/Schedule/DeleteGame";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -87,6 +88,10 @@ function App() {
           <Route
             path="/signout"
             element={<SignOutWarning firebaseConn={firebaseApp} />}
+          />
+          <Route
+            path="/deletegame/:date"
+            element={<DeleteGame firebaseConn={firebaseApp} />}
           />
           <Route
             path="/editgame/:date"
