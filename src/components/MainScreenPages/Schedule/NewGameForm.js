@@ -1,17 +1,17 @@
 import { Button } from "react-bootstrap";
 import { useRef, useState, useEffect, useContext } from "react";
-import { getFirestore, doc, setDoc } from "firebase/firestore/lite";
+import { getFirestore, doc, setDoc, deleteDoc } from "firebase/firestore/lite";
 import NewTimeOptionForm from "./NewTimeOptionForm";
 import ScheduleContext from "./Context/schedule-context";
 
 const NewGameForm = (props) => {
   const date = useRef();
-  //console.log(props.date, props.firebaseApp);
+  console.log(props.date, props.firebaseApp);
 
   const [numberOfTimeOptions, setNumberOfTimeOptions] = useState(1);
   const [addGameBtnReady, setaddGameBtnReady] = useState(false);
   const [options, setOptions] = useState([]);
-  const [dateTyped, setDateTyped] = useState("");
+  const [dateTyped, setDateTyped] = useState(props.date);
   const [newGameAdded, setNewGameAdded] = useState(false);
 
   const ScheduleCtx = useContext(ScheduleContext);
@@ -91,14 +91,31 @@ const NewGameForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const gameContent = {
       date: dateTyped,
       options: options,
     };
-    const usersRef = doc(fbdB, "schedule", dateTyped);
-    setDoc(usersRef, gameContent, { merge: true });
-    ScheduleCtx.addGame(gameContent);
-    setNewGameAdded(true);
+
+    if (props.date !== "") {
+      //Then we are modifying a game from EditGame.js component. We will delete that date from ScheduleCtx and Firebase and then add the new game to both
+      ScheduleCtx.removeGame(props.date);
+      ScheduleCtx.addGame(gameContent);
+      const scheduleRef = doc(fbdB, "schedule", props.date);
+      deleteDoc(scheduleRef).then((res) => {
+        setDoc(doc(fbdB, "schedule", dateTyped), gameContent, {
+          merge: true,
+        }).then((res) => {
+          console.log(res);
+        });
+      });
+    } else {
+      const scheduleRef = doc(fbdB, "schedule", dateTyped);
+      setDoc(scheduleRef, gameContent, { merge: true });
+      ScheduleCtx.addGame(gameContent);
+      setNewGameAdded(true);
+    }
+
     setTimeout(function () {
       props.stopAdding();
     }, 2000);
@@ -117,6 +134,7 @@ const NewGameForm = (props) => {
         {dateTyped.includes("-") ? (
           <input
             ref={date}
+            defaultValue={props.date}
             className="form-control is-valid"
             type="date"
             id="date"
@@ -137,8 +155,8 @@ const NewGameForm = (props) => {
       {timeOptions}
       <div className="alert alert-info text-center">
         <strong>
-          Make sure to at least confirm on time option before proceeding, before
-          then the option to accept changes will not be available
+          Make sure to at least confirm one time option before proceeding or the
+          option to save will not be available
         </strong>
       </div>
 
@@ -156,11 +174,11 @@ const NewGameForm = (props) => {
       </Button>
       {addGameBtnReady ? (
         <Button className="m-1" type="submit" variant="primary">
-          Add Game to Schedule
+          Save Game
         </Button>
       ) : (
         <Button className="m-1 disabled" type="submit" variant="primary">
-          Add Game to Schedule
+          Save Game
         </Button>
       )}
       {newGameAdded && (
