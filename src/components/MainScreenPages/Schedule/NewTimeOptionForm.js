@@ -33,7 +33,7 @@ const NewTimeOptionForm = (props) => {
     // Only accept option time if all three values have been added properly
     //in that case set the inputs as "is-valid" to show the user the changes were applied properly
     //Otherwise we won't accept the new time option and the inputs should be invalid
-    console.log("ON ACCEPTING TIME");
+
     if (
       !!timeFrom.current.value &&
       !!timeTo.current.value &&
@@ -41,7 +41,6 @@ const NewTimeOptionForm = (props) => {
     ) {
       setTimeAccepted(true);
       setInputClass("is-valid");
-      console.log("Time ACCEPTED!!!");
       props.onTimeAdded(
         timeFrom.current.value,
         timeTo.current.value,
@@ -49,13 +48,12 @@ const NewTimeOptionForm = (props) => {
         props.id
       );
     } else {
-      console.log("Time was NOT accepted");
       setTimeAccepted(false);
       setInputClass("is-invalid");
     }
   };
 
-  console.log(inputClass);
+  //console.log(inputClass);
 
   //If user chooses to remove a time option, upload the id of this element to NewGameForm.js to delete the proper time option
   const onRemove = () => {

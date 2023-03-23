@@ -6,13 +6,14 @@ import ScheduleContext from "./Context/schedule-context";
 
 const NewGameForm = (props) => {
   const date = useRef();
-  console.log(props.date, props.firebaseApp);
+  //console.log(props.date, props.firebaseApp);
 
   const [numberOfTimeOptions, setNumberOfTimeOptions] = useState(1);
   const [addGameBtnReady, setaddGameBtnReady] = useState(false);
   const [options, setOptions] = useState([]);
   const [dateTyped, setDateTyped] = useState(props.date);
   const [newGameAdded, setNewGameAdded] = useState(false);
+  const [gameAlreadyExists, setGameAlreadyExists] = useState(false);
 
   const ScheduleCtx = useContext(ScheduleContext);
 
@@ -89,16 +90,25 @@ const NewGameForm = (props) => {
   const fbApp = props.firebaseApp;
   const fbdB = getFirestore(fbApp);
 
+  //There are three scenarios for when the administrator is submitting a new game.
+  //1. A game has not yet been creating for this date, which means we just need to add a new date
+  //2. The administrator is just editing the time options but keeping the game date
+  //3. The administrator is attempting to either change the date of an existing game or add a new game, but there is already a game configured for this date
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    //This is the game we will need to submit
     const gameContent = {
       date: dateTyped,
       options: options,
     };
-
-    if (props.date !== "") {
-      //Then we are modifying a game from EditGame.js component. We will delete that date from ScheduleCtx and Firebase and then add the new game to both
+    //Below we are investigating if the game already exists
+    const dateAlreadyExisting = ScheduleCtx.games.filter(
+      (game) => game.date === dateTyped
+    );
+    // This is for scenario 2, props.date was provided which means the order comes from EditGame component and the date has been kept the same
+    if (props.date !== "" && props.date === dateTyped) {
+      //Then we are modifying a game from EditGame.js component within the same date. We will delete that date from ScheduleCtx and Firebase and then add the new game to both
+      console.log("Editing the game within the same date");
       ScheduleCtx.removeGame(props.date);
       ScheduleCtx.addGame(gameContent);
       const scheduleRef = doc(fbdB, "schedule", props.date);
@@ -109,23 +119,55 @@ const NewGameForm = (props) => {
           console.log(res);
         });
       });
+      setTimeout(function () {
+        props.stopAdding();
+      }, 2000);
+      //This is for scenario 3, the administrator is either modifying an existing game with a new date which happens to be busy or attempting to add a new game
+      //from scratch but the date is also busy
+    } else if (dateAlreadyExisting.length > 0) {
+      //We are attempting to add a game on a date that already exists
+      //We enable the following state, which prompts an alert to let the administrator know that an existing game is about to be replaced, if administrator accepts
+      //the onReplacingGameHandler function is called
+      setGameAlreadyExists(true);
+      //And this is for scenario 1, the administrator is adding a new game from scratch and there are no date conflicts
     } else {
       const scheduleRef = doc(fbdB, "schedule", dateTyped);
       setDoc(scheduleRef, gameContent, { merge: true });
       ScheduleCtx.addGame(gameContent);
       setNewGameAdded(true);
+      setTimeout(function () {
+        props.stopAdding();
+      }, 2000);
     }
+  };
 
+  //The following function is called after the administrator accepts to replace the exiting conflicts with a new date
+  const onReplacingGameHandler = () => {
+    const gameContent = {
+      date: dateTyped,
+      options: options,
+    };
+    ScheduleCtx.removeGame(dateTyped);
+    ScheduleCtx.addGame(gameContent);
+    const scheduleRef = doc(fbdB, "schedule", dateTyped);
+    deleteDoc(scheduleRef).then((res) => {
+      setDoc(scheduleRef, gameContent, {
+        merge: true,
+      }).then((res) => {
+        console.log(res);
+      });
+    });
+    setNewGameAdded(true);
+    setGameAlreadyExists(false);
     setTimeout(function () {
       props.stopAdding();
     }, 2000);
   };
-
   //Code to close the game option to stop adding
   const onCloseHandler = () => {
     props.stopAdding();
   };
-  //console.log(dateTyped);
+
   //JSX
   return (
     <form onSubmit={handleSubmit}>
@@ -143,7 +185,7 @@ const NewGameForm = (props) => {
         ) : (
           <input
             ref={date}
-            className="form-control"
+            className="form-control is-invalid"
             type="date"
             id="date"
             onChange={onAddingDate}
@@ -153,12 +195,14 @@ const NewGameForm = (props) => {
       <br />
 
       {timeOptions}
-      <div className="alert alert-info text-center">
-        <strong>
-          Make sure to at least confirm one time option before proceeding or the
-          option to save will not be available
-        </strong>
-      </div>
+      {(!dateTyped.includes("-") || options.length === 0) && (
+        <div className="alert alert-info text-center">
+          <strong>
+            Make sure to at least confirm one time option and to add a valid
+            date before attempting to save
+          </strong>
+        </div>
+      )}
 
       <Button
         className="m-1"
@@ -172,7 +216,7 @@ const NewGameForm = (props) => {
       <Button className="m-1" variant="secondary" onClick={onCloseHandler}>
         Cancel
       </Button>
-      {addGameBtnReady ? (
+      {addGameBtnReady && !gameAlreadyExists ? (
         <Button className="m-1" type="submit" variant="primary">
           Save Game
         </Button>
@@ -181,9 +225,33 @@ const NewGameForm = (props) => {
           Save Game
         </Button>
       )}
+      {gameAlreadyExists && (
+        <div className="alert alert-danger">
+          <strong>
+            A game for {dateTyped} already exists, would you like to replace it?
+          </strong>
+          <div>
+            {" "}
+            <Button
+              className="m-1"
+              variant="secondary"
+              onClick={onCloseHandler}
+            >
+              No
+            </Button>
+            <Button
+              className="m-1"
+              variant="primary"
+              onClick={onReplacingGameHandler}
+            >
+              Yes
+            </Button>
+          </div>
+        </div>
+      )}
       {newGameAdded && (
         <div className="alert alert-success">
-          <strong>"New Game has been added to Schedule"</strong>
+          <strong>New Game has been added to Schedule</strong>
         </div>
       )}
     </form>

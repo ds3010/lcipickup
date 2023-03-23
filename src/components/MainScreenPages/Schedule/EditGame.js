@@ -34,16 +34,16 @@ const EditGame = (props) => {
       </div>
     );
   });
-  console.log(currentOptions);
+  //console.log(currentOptions);
 
-  console.log(gameOptions);
+  //console.log(gameOptions);
   return (
     <ModalScreen title="Edit Game">
       <div className="alert alert-secondary">
         <strong>
-          The following time options are already configured for this game, click
-          on cancel to keep these options or type and confirm new options to
-          replace them
+          The following time options are already configured for this date, click
+          on cancel or configure new times below. If you want to keep these
+          times, please re-add them again here
         </strong>
         <br />
         <br />

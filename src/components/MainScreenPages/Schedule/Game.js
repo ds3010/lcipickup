@@ -2,6 +2,10 @@ import { useState, useContext } from "react";
 import { Button } from "react-bootstrap";
 import AuthContext from "../../Authentication/Context/auth-context";
 import { useNavigate } from "react-router-dom";
+import trashSVG from "../../../assets/icons/trash.svg";
+import editSVG from "../../../assets/icons/edit.svg";
+import collapse from "../../../assets/icons/arrows-collapse.svg";
+import expand from "../../../assets/icons/arrows-expand.svg";
 
 const Game = (props) => {
   const [isActive, setIsActive] = useState(false);
@@ -52,31 +56,23 @@ const Game = (props) => {
         <div className="d-flex">
           {authCtx.isLoggedIn && (
             <div>
-              <Button className="m-1" onClick={onEditingHandler}>
-                Edit
+              <Button className="m-1 btn-light" onClick={onEditingHandler}>
+                <img src={editSVG}></img>
               </Button>
-              <Button className="m-1 btn-danger" onClick={onDeletingHandler}>
-                Delete
+              <Button className="m-1 btn-light" onClick={onDeletingHandler}>
+                <img src={trashSVG}></img>
               </Button>
             </div>
           )}
           <div>
             {isActive ? (
-              <h5
-                role="button"
-                className="align-top"
-                onClick={expandOrCollapse}
-              >
-                -
-              </h5>
+              <Button className="m-1 btn-light" onClick={expandOrCollapse}>
+                <img src={collapse}></img>
+              </Button>
             ) : (
-              <h5
-                role="button"
-                className="align-top"
-                onClick={expandOrCollapse}
-              >
-                +
-              </h5>
+              <Button className="m-1 btn-light" onClick={expandOrCollapse}>
+                <img src={expand}></img>
+              </Button>
             )}
           </div>
         </div>
