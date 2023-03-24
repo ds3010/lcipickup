@@ -20,6 +20,7 @@ import {
 } from "firebase/firestore";
 import EditGame from "./components/MainScreenPages/Schedule/EditGame";
 import DeleteGame from "./components/MainScreenPages/Schedule/DeleteGame";
+import Users from "./components/MainScreenPages/Users/Users";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -87,6 +88,7 @@ function App() {
             path="/profile"
             element={<Profile firebaseConn={firebaseApp} />}
           />
+          <Route path="/users" element={<Users firebaseConn={firebaseApp} />} />
           <Route
             path="/signupform"
             element={<SignUpForm firebaseConn={firebaseApp} />}

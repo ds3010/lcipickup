@@ -23,7 +23,7 @@ const SignInForm = (props) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const regularExpression =
-    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/;
 
   const handleSubmit = (e) => {
     e.preventDefault();

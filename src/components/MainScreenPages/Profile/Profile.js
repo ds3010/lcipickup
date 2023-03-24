@@ -111,123 +111,145 @@ const Profile = (props) => {
 
   return (
     <div className="container">
-      <div className="text-center">
-        <h4>My Details</h4>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="displayname">Display Name</label>
-          <input
-            ref={displayName}
-            defaultValue={authCtx.displayName}
-            className="form-control"
-            type="text"
-            id="displayname"
-          />
+      {(authCtx.displayName === "" ||
+        authCtx.firstName === "" ||
+        authCtx.lastName === "" ||
+        authCtx.phoneNumber === "") && (
+        <div className="alert alert-danger text-center">
+          <strong>Please make sure to fill out all below details</strong>
         </div>
-        <div className="form-group">
-          <label htmlFor="firstname">First Name</label>
-          <input
-            ref={firstName}
-            defaultValue={authCtx.firstName}
-            className="form-control"
-            type="text"
-            id="firstname"
-          />
+      )}
+      {!authCtx.isLoggedIn ? (
+        <div className="alert alert-danger text-center">
+          <strong>
+            You do not have enough permissions to render this page
+          </strong>
         </div>
-        <div className="form-group">
-          <label htmlFor="lastname">Last Name</label>
-          <input
-            ref={lastName}
-            defaultValue={authCtx.lastName}
-            className="form-control"
-            type="text"
-            id="lastname"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="phonenumber">Phone Number</label>
-          <input
-            ref={phonenumber}
-            defaultValue={authCtx.phoneNumber}
-            className="form-control"
-            type="tel"
-            id="phonenumber"
-          />
-        </div>
+      ) : (
+        <>
+          <div className="text-center">
+            <h4>My Details</h4>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="displayname">Display Name</label>
+              <input
+                ref={displayName}
+                defaultValue={authCtx.displayName}
+                className="form-control"
+                type="text"
+                id="displayname"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="firstname">First Name</label>
+              <input
+                ref={firstName}
+                defaultValue={authCtx.firstName}
+                className="form-control"
+                type="text"
+                id="firstname"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastname">Last Name</label>
+              <input
+                ref={lastName}
+                defaultValue={authCtx.lastName}
+                className="form-control"
+                type="text"
+                id="lastname"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phonenumber">Phone Number</label>
+              <input
+                ref={phonenumber}
+                defaultValue={authCtx.phoneNumber}
+                className="form-control"
+                type="tel"
+                id="phonenumber"
+              />
+            </div>
 
-        <br />
-        <div className="text-end">
-          <Button className="m-1" type="submit" variant="primary">
-            Submit Changes
-          </Button>
-        </div>
-        <div className="text-center">
-          {profileChanged && (
-            <div className="alert alert-success">
-              <strong>Personal details modified</strong>
+            <br />
+            <div className="text-end">
+              <Button className="m-1" type="submit" variant="primary">
+                Submit Changes
+              </Button>
             </div>
-          )}
-        </div>
-      </form>
-      <div className="text-center">
-        <h4>Password Change</h4>
-      </div>
-      <form onSubmit={onPasswordChange}>
-        <div className="form-group">
-          <label htmlFor="password">Current Password</label>
-          <input
-            ref={currentpassword}
-            className="form-control"
-            type="password"
-            id="currentpassword"
-          />
-          {/* <div className="invalid-feedback">Password not strong enough</div> */}
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            ref={password1}
-            className="form-control"
-            type="password"
-            id="password1"
-          />
-          {/* <div className="invalid-feedback">Password not strong enough</div> */}
-        </div>
-        <div className="form-group">
-          <label htmlFor="password2">Confirm Password</label>
-          <input
-            ref={password2}
-            className="form-control"
-            type="password"
-            id="password2"
-          />
-          <br />
-        </div>
-        <div className="text-end">
-          {" "}
-          <Button className="m-1" type="submit" variant="primary">
-            Change Password
-          </Button>
-        </div>
-        <div className="text-center">
-          {passwordError !== "" && (
-            <div className="alert alert-danger">
-              <strong>{passwordError}</strong>
+            <div className="text-center">
+              {profileChanged && (
+                <div className="alert alert-success">
+                  <strong>Personal details modified</strong>
+                </div>
+              )}
             </div>
-          )}
-          {passwordchanged && (
-            <div className="alert alert-success">
-              <strong>Password changed!</strong>
+          </form>
+          <div className="text-center">
+            <h4>Password Change</h4>
+          </div>
+          <form onSubmit={onPasswordChange}>
+            <div className="form-group">
+              <label htmlFor="password">Current Password</label>
+              <input
+                ref={currentpassword}
+                className="form-control"
+                type="password"
+                id="currentpassword"
+              />
+              {/* <div className="invalid-feedback">Password not strong enough</div> */}
             </div>
-          )}
-        </div>
-      </form>
-      <div className="text-center">
-        <Button className="m-1" variant="secondary" onClick={onCloseHandler}>
-          Exit
-        </Button>
-      </div>
+            <div className="form-group">
+              <label htmlFor="password">New Password</label>
+              <input
+                ref={password1}
+                className="form-control"
+                type="password"
+                id="password1"
+              />
+              {/* <div className="invalid-feedback">Password not strong enough</div> */}
+            </div>
+            <div className="form-group">
+              <label htmlFor="password2">Confirm New Password</label>
+              <input
+                ref={password2}
+                className="form-control"
+                type="password"
+                id="password2"
+              />
+              <br />
+            </div>
+            <div className="text-end">
+              {" "}
+              <Button className="m-1" type="submit" variant="primary">
+                Change Password
+              </Button>
+            </div>
+            <div className="text-center">
+              {passwordError !== "" && (
+                <div className="alert alert-danger">
+                  <strong>{passwordError}</strong>
+                </div>
+              )}
+              {passwordchanged && (
+                <div className="alert alert-success">
+                  <strong>Password changed!</strong>
+                </div>
+              )}
+            </div>
+          </form>
+          <div className="text-center">
+            <Button
+              className="m-1"
+              variant="secondary"
+              onClick={onCloseHandler}
+            >
+              Exit
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
