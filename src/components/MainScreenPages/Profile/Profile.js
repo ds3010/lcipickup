@@ -181,7 +181,6 @@ const Profile = (props) => {
             className="form-control"
             type="password"
             id="currentpassword"
-            placeholder="Leave blank if you do not want to change it"
           />
           {/* <div className="invalid-feedback">Password not strong enough</div> */}
         </div>
@@ -192,7 +191,6 @@ const Profile = (props) => {
             className="form-control"
             type="password"
             id="password1"
-            placeholder="Leave blank if you do not want to change it"
           />
           {/* <div className="invalid-feedback">Password not strong enough</div> */}
         </div>
@@ -203,10 +201,7 @@ const Profile = (props) => {
             className="form-control"
             type="password"
             id="password2"
-            placeholder="Leave blank if you do not want to change it"
           />
-          {/* <div className="invalid-feedback">Password does not match</div> */}
-
           <br />
         </div>
         <div className="text-end">
