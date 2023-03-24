@@ -40,11 +40,7 @@ const EditGame = (props) => {
   return (
     <ModalScreen title="Edit Game">
       <div className="alert alert-secondary">
-        <strong>
-          The following time options are already configured for this date, click
-          on cancel or configure new times below. If you want to keep these
-          times, please re-add them again here
-        </strong>
+        <strong>The following options will be replaced</strong>
         <br />
         <br />
         {currentOptions}

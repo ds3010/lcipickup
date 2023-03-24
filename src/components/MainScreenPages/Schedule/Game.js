@@ -57,21 +57,21 @@ const Game = (props) => {
           {authCtx.isLoggedIn && (
             <div>
               <Button className="m-1 btn-light" onClick={onEditingHandler}>
-                <img src={editSVG}></img>
+                <img src={editSVG} alt="edit"></img>
               </Button>
               <Button className="m-1 btn-light" onClick={onDeletingHandler}>
-                <img src={trashSVG}></img>
+                <img src={trashSVG} alt="delete"></img>
               </Button>
             </div>
           )}
           <div>
             {isActive ? (
               <Button className="m-1 btn-light" onClick={expandOrCollapse}>
-                <img src={collapse}></img>
+                <img src={collapse} alt="collapse"></img>
               </Button>
             ) : (
               <Button className="m-1 btn-light" onClick={expandOrCollapse}>
-                <img src={expand}></img>
+                <img src={expand} alt="expand"></img>
               </Button>
             )}
           </div>
