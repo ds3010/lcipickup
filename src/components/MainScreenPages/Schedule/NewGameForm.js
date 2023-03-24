@@ -102,9 +102,13 @@ const NewGameForm = (props) => {
       options: options,
     };
     //Below we are investigating if the game already exists
-    const dateAlreadyExisting = ScheduleCtx.games.filter(
-      (game) => game.date === dateTyped
-    );
+    let dateAlreadyExisting;
+    if (!!ScheduleCtx.games) {
+      dateAlreadyExisting = ScheduleCtx.games.filter(
+        (game) => game.date === dateTyped
+      );
+    }
+
     // This is for scenario 2, props.date was provided which means the order comes from EditGame component and the date has been kept the same
     if (props.date !== "" && props.date === dateTyped) {
       //Then we are modifying a game from EditGame.js component within the same date. We will delete that date from ScheduleCtx and Firebase and then add the new game to both
@@ -124,12 +128,14 @@ const NewGameForm = (props) => {
       }, 2000);
       //This is for scenario 3, the administrator is either modifying an existing game with a new date which happens to be busy or attempting to add a new game
       //from scratch but the date is also busy
-    } else if (dateAlreadyExisting.length > 0) {
-      //We are attempting to add a game on a date that already exists
-      //We enable the following state, which prompts an alert to let the administrator know that an existing game is about to be replaced, if administrator accepts
-      //the onReplacingGameHandler function is called
-      setGameAlreadyExists(true);
-      //And this is for scenario 1, the administrator is adding a new game from scratch and there are no date conflicts
+    } else if (!!dateAlreadyExisting) {
+      if (dateAlreadyExisting.length > 0) {
+        //We are attempting to add a game on a date that already exists
+        //We enable the following state, which prompts an alert to let the administrator know that an existing game is about to be replaced, if administrator accepts
+        //the onReplacingGameHandler function is called
+        setGameAlreadyExists(true);
+        //And this is for scenario 1, the administrator is adding a new game from scratch and there are no date conflicts
+      }
     } else {
       const scheduleRef = doc(fbdB, "schedule", dateTyped);
       setDoc(scheduleRef, gameContent, { merge: true });

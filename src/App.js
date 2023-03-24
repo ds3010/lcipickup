@@ -62,7 +62,14 @@ function App() {
       const docRef = doc(fbDb, "users", user.uid);
       //console.log(docRef);
       getDoc(docRef).then((res) => {
+        //console.log(res.data().isAdmin);
         authCtx.updateAdminStatus(res.data().isAdmin);
+        authCtx.updateProfile(
+          res.data().displayName,
+          res.data().phoneNumber,
+          res.data().firstName,
+          res.data().lastName
+        );
       });
     }
   });
@@ -76,7 +83,10 @@ function App() {
             path="/schedule"
             element={<Schedule firebaseConn={firebaseApp} />}
           />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={<Profile firebaseConn={firebaseApp} />}
+          />
           <Route
             path="/signupform"
             element={<SignUpForm firebaseConn={firebaseApp} />}

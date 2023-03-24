@@ -54,6 +54,8 @@ const SignUpForm = (props) => {
             usersRef,
             {
               email: res.user.email,
+              firstName: "",
+              lastName: "",
               gamesPlayedSoFar: [],
               displayName: "",
               phoneNumber: "",

@@ -27,7 +27,7 @@ const SignOutWarning = (props) => {
         //console.log(res);
         authCtx.logout();
         setTimeout(function () {
-          navigate(-1);
+          navigate("/");
         }, 2000);
       })
       .catch((error) => {
