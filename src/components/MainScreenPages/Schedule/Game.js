@@ -54,7 +54,7 @@ const Game = (props) => {
         </h5>
 
         <div className="d-flex">
-          {authCtx.isLoggedIn && (
+          {authCtx.isAdmin && (
             <div>
               <Button className="m-1 btn-light" onClick={onEditingHandler}>
                 <img src={editSVG} alt="edit"></img>
@@ -98,7 +98,7 @@ const Game = (props) => {
               </div>
             ))}
           </div>
-          {!authCtx.isLoggedIn ? (
+          {!authCtx.isAdmin ? (
             <button className={btnClasses} type="button">
               Play!
             </button>

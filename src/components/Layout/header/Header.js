@@ -27,7 +27,7 @@ const Header = () => {
       { name: "Sign Up", key: 2 },
     ];
     //menu options for signed in users
-  } else {
+  } else if (authCtx.isLoggedIn && authCtx.isAdmin){
     options = [
       { name: "Manage Users", key: 0 },
       { name: "Schedule", key: 1 },
@@ -39,6 +39,18 @@ const Header = () => {
         key: 2,
       },
       { name: "Sign Out", key: 3 },
+    ];
+  } else if (authCtx.isLoggedIn && !authCtx.isAdmin){
+    options = [
+      { name: "Schedule", key: 0 },
+      {
+        name:
+          authCtx.displayName !== ""
+            ? authCtx.displayName + " Profile"
+            : "Update Profile",
+        key: 1,
+      },
+      { name: "Sign Out", key: 2 },
     ];
   }
 

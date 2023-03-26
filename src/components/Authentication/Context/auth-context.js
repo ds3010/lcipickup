@@ -19,14 +19,14 @@ const AuthContext = React.createContext({
 });
 
 export const AuthContextProvider = (props) => {
-  const [token, setToken] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [firstName, setfirstName] = useState(null);
-  const [lastName, setlastName] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [displayName, setdisplayName] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(null);
-  const [phoneNumber, setphoneNumber] = useState(null);
+  const [token, setToken] = useState("");
+  const [email, setEmail] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [displayName, setdisplayName] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [phoneNumber, setphoneNumber] = useState("");
   const [games, setgames] = useState([]);
 
   const userIsLoggedIn = !!token;
@@ -67,7 +67,7 @@ export const AuthContextProvider = (props) => {
   };
 
   const adminHandler = (isAdmin) => {
-    // console.log("Is this user admin?:", isAdmin);
+    //console.log("Is this user admin?:", isAdmin);
     setIsAdmin(isAdmin);
   };
 
