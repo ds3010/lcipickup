@@ -43,30 +43,46 @@ function App() {
   //Getting the Schedule collection reference
   useEffect(() => {
     const colRef = collection(fbDb, "schedule");
-    
-
+    const usersColRef = collection(fbDb, "users");
+    //The following code is intended to save all games in the schedule context
     if (colRef !== null) {
       getDocs(colRef).then((res) => {
         ScheduleCtx.clearGames();
+        //console.log("getting games")
         res.docs.forEach((doc) => {
           ScheduleCtx.addGame(doc.data());
         });
       });
     }
 
+    //The following code is intended to save all users in the users context
+    if (!!authCtx.isAdmin && authCtx.isAdmin) {
+      //console.log("this user is an admin so I am getting users")
+      if (usersColRef !== null) {
+        //console.log('getting users')
+        getDocs(usersColRef).then((res) => {
+          usersCtx.clearUsers();
+          res.docs.forEach((doc) => {
+            //console.log(doc.data());
+            usersCtx.addUser(doc.data());
+          });
+        });
+      }
+    }
 
-  }, []);
+
+  }, [authCtx.isAdmin]);
 
   onAuthStateChanged(fbAuth, (user) => {
     if (user) {
-      console.log(user);
+      //console.log(user);
       authCtx.login(user.accessToken, user.email, user.uid);
       const docRef = doc(fbDb, "users", user.uid);
       
       //console.log(docRef);
       getDoc(docRef).then((res) => {
-        console.log("Inside getDoc in App.js");
-        console.log("isAdmin:", res.data().isAdmin);
+        //console.log("Inside getDoc in App.js");
+        //console.log("isAdmin:", res.data().isAdmin);
         authCtx.updateAdminStatus(res.data().isAdmin);
         authCtx.updateProfile(
           res.data().displayName,
@@ -74,20 +90,7 @@ function App() {
           res.data().firstName,
           res.data().lastName
         );
-        if (!!authCtx.isAdmin) {
-          const usersColRef = collection(fbDb, "users");
-          console.log("this user is an admin")
-          if (usersColRef !== null) {
-            console.log('getting users')
-            getDocs(usersColRef).then((res) => {
-              usersCtx.clearUsers();
-              res.docs.forEach((doc) => {
-                console.log(doc.data());
-                //usersCtx.addUser(doc.data());
-              });
-            });
-          }
-        }
+
       });
     }
   });
