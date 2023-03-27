@@ -22,6 +22,8 @@ import {
 import EditGame from "./components/MainScreenPages/Schedule/EditGame";
 import DeleteGame from "./components/MainScreenPages/Schedule/DeleteGame";
 import Users from "./components/MainScreenPages/Users/Users";
+import UserDetails from "./components/MainScreenPages/Users/UserDetails";
+import MakeAdminWarning from "./components/MainScreenPages/Users/MakeAdminWarning";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -69,8 +71,6 @@ function App() {
         });
       }
     }
-
-
   }, [authCtx.isAdmin]);
 
   onAuthStateChanged(fbAuth, (user) => {
@@ -78,7 +78,7 @@ function App() {
       //console.log(user);
       authCtx.login(user.accessToken, user.email, user.uid);
       const docRef = doc(fbDb, "users", user.uid);
-      
+
       //console.log(docRef);
       getDoc(docRef).then((res) => {
         //console.log("Inside getDoc in App.js");
@@ -90,7 +90,6 @@ function App() {
           res.data().firstName,
           res.data().lastName
         );
-
       });
     }
   });
@@ -124,6 +123,14 @@ function App() {
           <Route
             path="/deletegame/:date"
             element={<DeleteGame firebaseConn={firebaseApp} />}
+          />
+          <Route
+            path="/userdetails/:userid"
+            element={<UserDetails firebaseConn={firebaseApp} />}
+          />
+          <Route
+            path="/makeadmin/:userid"
+            element={<MakeAdminWarning firebaseConn={firebaseApp} />}
           />
           <Route
             path="/editgame/:date"

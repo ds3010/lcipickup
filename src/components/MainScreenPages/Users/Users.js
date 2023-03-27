@@ -6,33 +6,41 @@ import User from "./User";
 const Users = (props) => {
   const authCtx = useContext(AuthContext);
   const usersCtx = useContext(UsersContext);
-  let rearrangedUsers = []
-  let usersContent
+  let rearrangedUsers = [];
+  let usersContent;
   //let otherUsers
   //console.log(props.firebaseConn)
-  const myUserIndex = usersCtx.users.findIndex(user => user.email === authCtx.email)
-  
+  const myUserIndex = usersCtx.users.findIndex(
+    (user) => user.email === authCtx.email
+  );
+
   if (myUserIndex !== -1) {
-    const allUsers = [...usersCtx.users]
-    const myUser = allUsers[myUserIndex]
-    allUsers.splice(myUserIndex, 1)
-    allUsers.unshift(myUser)
-    rearrangedUsers = [...allUsers]
+    const allUsers = [...usersCtx.users];
+    const myUser = allUsers[myUserIndex];
+    allUsers.splice(myUserIndex, 1);
+    allUsers.unshift(myUser);
+    rearrangedUsers = [...allUsers];
     //console.log(myUser)
     //console.log(allUsers)
   }
 
-  if (rearrangedUsers.length > 0) {  
-    console.log("We are here")
-    usersContent = rearrangedUsers.map(user => {
-      console.log(user)
-      return <User user={user} firebaseConn={props.firebaseConn}></User>
-    })
+  if (rearrangedUsers.length > 0) {
+    //console.log("We are here")
+    let key = -1;
+    usersContent = rearrangedUsers.map((user) => {
+      //console.log(user)
+      key = key + 1;
+      return (
+        <User user={user} firebaseConn={props.firebaseConn} key={key}></User>
+      );
+    });
   }
 
   return (
     <div className="container">
-      <div className="text-center"><h3>Players</h3></div>
+      <div className="text-center">
+        <h3>Players</h3>
+      </div>
       <br></br>
       {authCtx.isAdmin ? (
         <ul className="list-group mb-5">{usersContent}</ul>
