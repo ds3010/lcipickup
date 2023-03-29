@@ -43,7 +43,11 @@ const Schedule = (props) => {
       <div id="accordion">
         {ScheduleCtx.games.length > 0 &&
           ScheduleCtx.games.map((game) => (
-            <Game data={game} key={game.date}></Game>
+            <Game
+              data={game}
+              key={game.date}
+              firebaseConn={props.firebaseConn}
+            ></Game>
           ))}
       </div>
     </>
