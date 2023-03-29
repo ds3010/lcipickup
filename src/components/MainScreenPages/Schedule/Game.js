@@ -18,7 +18,7 @@ const Game = (props) => {
 
   const authCtx = useContext(AuthContext);
   const scheduleCtx = useContext(ScheduleContext);
-  console.log(scheduleCtx.games);
+  //console.log(scheduleCtx.games);
 
   const fbdB = getFirestore(props.firebaseConn);
 
@@ -34,10 +34,10 @@ const Game = (props) => {
     setBtnActive(true);
   };
 
-  console.log(optionSelected);
+  //console.log(optionSelected);
 
   const btnClasses = btnActive
-    ? "btn btn-secondary col-12"
+    ? "btn btn-primary col-12"
     : "btn btn-secondary col-12 disabled";
 
   const navigate = useNavigate();
@@ -76,21 +76,121 @@ const Game = (props) => {
     });
   };
 
+  const gamedate = new Date(props.data.date + " EDT");
+
+  const dayNumber = gamedate.getDay();
+  console.log(dayNumber);
+  const date = gamedate.getDate();
+  console.log(date);
+  const monthNumber = gamedate.getMonth();
+  console.log(monthNumber);
+  const year = gamedate.getFullYear();
+  console.log(year);
+
+  let day = "";
+  switch (dayNumber) {
+    case 0:
+      day = "Sun";
+      break;
+    case 1:
+      day = "Mon";
+      break;
+    case 2:
+      day = "Tue";
+      break;
+    case 3:
+      day = "Wed";
+      break;
+    case 4:
+      day = "Thu";
+      break;
+    case 5:
+      day = "Fri";
+      break;
+    case 6:
+      day = "Sat";
+      break;
+    default:
+      day = "Sun";
+  }
+
+  let ordinal;
+
+  if (date > 10 && date < 20) {
+    ordinal = "th";
+  } else {
+    switch (date % 10) {
+      case 1:
+        ordinal = "st";
+        break;
+      case 2:
+        ordinal = "nd";
+        break;
+      case 3:
+        ordinal = "rd";
+        break;
+      default:
+        ordinal = "th";
+    }
+  }
+  //console.log(date);
+
+  let month;
+  switch (monthNumber) {
+    case 0:
+      month = "Jan";
+      break;
+    case 1:
+      month = "Feb";
+      break;
+    case 2:
+      month = "Mar";
+      break;
+    case 3:
+      month = "Apr";
+      break;
+    case 4:
+      month = "May";
+      break;
+    case 5:
+      month = "June";
+      break;
+    case 6:
+      month = "July";
+      break;
+    case 7:
+      month = "Aug";
+      break;
+    case 8:
+      month = "Sep";
+      break;
+    case 9:
+      month = "Oct";
+      break;
+    case 10:
+      month = "Nov";
+      break;
+    case 11:
+      month = "Dec";
+      break;
+    default:
+      month = "";
+  }
   return (
-    <div className="card container">
-      <div className="d-flex justify-content-between card-header">
-        <h5>
+    <div className="card container p-0">
+      <div className="d-flex justify-content-between card-header align-items-center">
+        <h5 className="m-0">
           <a
             href="#collapse1"
             data-parent="#accordion"
             data-toggle="collapse"
-            className="align-top"
+            className="h-100 text-decoration-none text-secondary"
             onClick={expandOrCollapse}
           >
-            {props.data.date}
+            {day}, {month} {date}
+            {ordinal}, {year}
           </a>
         </h5>
-
         <div className="d-flex">
           {authCtx.isAdmin && (
             <div>
@@ -190,9 +290,15 @@ const Game = (props) => {
             </table>
           </div>
 
-          <button className={btnClasses} type="button" onClick={onPlaying}>
-            Play!
-          </button>
+          {authCtx.isLoggedIn ? (
+            <button className={btnClasses} type="button" onClick={onPlaying}>
+              Play!
+            </button>
+          ) : (
+            <div className="alert alert-danger text-center">
+              <strong>Please sign in to play</strong>
+            </div>
+          )}
         </div>
       )}
     </div>
