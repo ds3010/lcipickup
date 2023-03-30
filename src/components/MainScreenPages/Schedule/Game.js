@@ -26,10 +26,13 @@ const Game = (props) => {
     setIsActive((prev) => {
       return !prev;
     });
+    setBtnActive(false);
   };
 
+  //console.log()
+
   const onOptionSelected = (e) => {
-    //console.log('option selected')
+    console.log(e.target);
     setOptionSelected(e.target.value);
     setBtnActive(true);
   };
@@ -54,38 +57,39 @@ const Game = (props) => {
     const optIndex = props.data.options.findIndex(
       (option) => option.id === parseInt(optionSelected)
     );
-    //console.log(optIndex);
-    const optionsCopy = [...{ ...props.data }.options];
-    optionsCopy[optIndex].signedUpUsers.push(authCtx.email);
-    //console.log(optionsCopy);
-    const newGame = {
-      date: props.data.date,
-      options: optionsCopy,
-    };
-    //Delete old game and add new one in Context
-    scheduleCtx.removeGame(props.data.date);
-    scheduleCtx.addGame(newGame);
-    //Delete old game and add new one in Firebase
-    const scheduleRef = doc(fbdB, "schedule", props.data.date);
-    deleteDoc(scheduleRef).then((res) => {
-      setDoc(doc(fbdB, "schedule", props.data.date), newGame, {
-        merge: true,
-      }).then((res) => {
-        //console.log(res);
-      });
-    });
+    navigate("/play/" + props.data.date + "/" + String(optIndex));
+    // //console.log(optIndex);
+    // const optionsCopy = [...{ ...props.data }.options];
+    // optionsCopy[optIndex].signedUpUsers.push(authCtx.email);
+    // //console.log(optionsCopy);
+    // const newGame = {
+    //   date: props.data.date,
+    //   options: optionsCopy,
+    // };
+    // //Delete old game and add new one in Context
+    // scheduleCtx.removeGame(props.data.date);
+    // scheduleCtx.addGame(newGame);
+    // //Delete old game and add new one in Firebase
+    // const scheduleRef = doc(fbdB, "schedule", props.data.date);
+    // deleteDoc(scheduleRef).then((res) => {
+    //   setDoc(doc(fbdB, "schedule", props.data.date), newGame, {
+    //     merge: true,
+    //   }).then((res) => {
+    //     //console.log(res);
+    //   });
+    // });
   };
 
   const gamedate = new Date(props.data.date + " EDT");
 
   const dayNumber = gamedate.getDay();
-  console.log(dayNumber);
+  //console.log(dayNumber);
   const date = gamedate.getDate();
-  console.log(date);
+  // console.log(date);
   const monthNumber = gamedate.getMonth();
-  console.log(monthNumber);
+  //console.log(monthNumber);
   const year = gamedate.getFullYear();
-  console.log(year);
+  //console.log(year);
 
   let day = "";
   switch (dayNumber) {

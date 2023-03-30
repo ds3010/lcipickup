@@ -24,6 +24,7 @@ import DeleteGame from "./components/MainScreenPages/Schedule/DeleteGame";
 import Users from "./components/MainScreenPages/Users/Users";
 import UserDetails from "./components/MainScreenPages/Users/UserDetails";
 import MakeAdminWarning from "./components/MainScreenPages/Users/MakeAdminWarning";
+import PlayGame from "./components/MainScreenPages/Schedule/PlayGame";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -123,6 +124,10 @@ function App() {
           <Route
             path="/deletegame/:date"
             element={<DeleteGame firebaseConn={firebaseApp} />}
+          />
+          <Route
+            path="/play/:date/:gameId"
+            element={<PlayGame firebaseConn={firebaseApp} />}
           />
           <Route
             path="/userdetails/:userid"
