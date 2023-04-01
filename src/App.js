@@ -5,7 +5,7 @@ import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
 import SignInForm from "./components/Authentication/SignInForm";
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import SignOutWarning from "./components/Authentication/SignOutWarning";
 import { initializeApp } from "firebase/app";
 import AuthContext from "./components/Authentication/Context/auth-context";
@@ -25,6 +25,8 @@ import Users from "./components/MainScreenPages/Users/Users";
 import UserDetails from "./components/MainScreenPages/Users/UserDetails";
 import MakeAdminWarning from "./components/MainScreenPages/Users/MakeAdminWarning";
 import PlayGame from "./components/MainScreenPages/Schedule/PlayGame";
+import Success from "./components/MainScreenPages/Payment/Success";
+import Cancel from "./components/MainScreenPages/Payment/Cancel";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
@@ -44,6 +46,10 @@ function App() {
   const ScheduleCtx = useContext(ScheduleContext);
   const usersCtx = useContext(UsersContext);
   //Getting the Schedule collection reference
+
+  const [dateChosen, setDateChosen] = useState("");
+  const [gameIdChosen, setGameIdChosen] = useState("");
+
   useEffect(() => {
     const colRef = collection(fbDb, "schedule");
     const usersColRef = collection(fbDb, "users");
@@ -95,6 +101,22 @@ function App() {
     }
   });
 
+  // const navigate = useNavigate();
+  const onAddUser = (date, gameId) => {
+    setDateChosen(date);
+    setGameIdChosen(gameId);
+    //console.log("HERE")
+  };
+
+  const onCancel = () => {
+    setDateChosen("");
+    setGameIdChosen("");
+  };
+
+  console.log(dateChosen);
+  console.log(gameIdChosen);
+  console.log(ScheduleCtx.games);
+
   return (
     <div className="App">
       <Header></Header>
@@ -127,8 +149,21 @@ function App() {
           />
           <Route
             path="/play/:date/:gameId"
-            element={<PlayGame firebaseConn={firebaseApp} />}
+            element={
+              <PlayGame firebaseConn={firebaseApp} onAccept={onAddUser} />
+            }
           />
+          <Route
+            path="/success"
+            element={
+              <Success
+                firebaseConn={firebaseApp}
+                date={dateChosen}
+                gameId={gameIdChosen}
+              />
+            }
+          />
+          <Route path="/cancel" element={<Cancel onCancel={onCancel} />} />
           <Route
             path="/userdetails/:userid"
             element={<UserDetails firebaseConn={firebaseApp} />}

@@ -1,30 +1,40 @@
 import { Button } from "react-bootstrap";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useRef } from "react";
+import "./NewTimeOptionForm.css";
 
 const NewTimeOptionForm = (props) => {
   //Setting references for inputs to keep track of them
   const timeFrom = useRef();
   const timeTo = useRef();
-  const cost = useRef();
+  // const cost = useRef();
   const maxPlayers = useRef();
+
+  const [cost, setCost] = useState("15$");
 
   //After removing a time option, if other options were configured and have already been applied, we will receive these values as props
   //from NewGameForm.js and we should automatically set those values so the admin doesn't need to add them again
-  if (props.timeFrom !== "" && props.timeTo !== "" && props.cost !== "" && props.maxPlayers !== "") {
+  if (
+    props.timeFrom !== "" &&
+    props.timeTo !== "" &&
+    // props.cost !== "" &&
+    props.maxPlayers !== ""
+  ) {
     if (props.requester === "newGame") {
       timeFrom.current.value = props.timeFrom;
       timeTo.current.value = props.timeTo;
-      cost.current.value = props.cost;
+      // cost.current.value = props.cost;
       maxPlayers.current.value = props.maxPlayers;
     } else if (
       !!timeFrom.current &&
       !!timeTo.current &&
-      !!cost.current &&
+      // !!cost.current &&
       !!maxPlayers.current
     ) {
       timeFrom.current.value = props.timeFrom;
       timeTo.current.value = props.timeTo;
-      cost.current.value = props.cost;
+      // cost.current.value = props.cost;
       maxPlayers.current.value = props.maxPlayers;
     }
   }
@@ -46,7 +56,7 @@ const NewTimeOptionForm = (props) => {
     if (
       !!timeFrom.current.value &&
       !!timeTo.current.value &&
-      !!cost.current.value &&
+      // !!cost.current.value &&
       !!maxPlayers.current.value
     ) {
       setTimeAccepted(true);
@@ -54,7 +64,7 @@ const NewTimeOptionForm = (props) => {
       props.onTimeAdded(
         timeFrom.current.value,
         timeTo.current.value,
-        cost.current.value,
+        cost,
         maxPlayers.current.value,
         format,
         props.id
@@ -67,12 +77,17 @@ const NewTimeOptionForm = (props) => {
 
   const onFormatSelected = (e) => {
     //console.log(e.target.value);
-    setFormat(e.target.value)
+    setFormat(e.target.value);
   };
 
   //If user chooses to remove a time option, upload the id of this element to NewGameForm.js to delete the proper time option
   const onRemove = () => {
     props.onTimeRemoved(props.id);
+  };
+
+  const onHandleSelect = (e) => {
+    console.log(e);
+    setCost(e);
   };
   return (
     <>
@@ -103,16 +118,11 @@ const NewTimeOptionForm = (props) => {
       <br />
       <div className="row">
         <div className="form-group col-6">
-          <label htmlFor="cost">Cost per Player</label>
-          <input
-            ref={cost}
-            defaultValue={props.cost}
-            className={"form-control " + inputClass}
-            type="number"
-            step="any"
-            id="cost"
-            readOnly={timeAccepted}
-          />
+          <label htmlFor="time">Cost</label>
+          <DropdownButton title={cost} id="cost" onSelect={onHandleSelect}>
+            <Dropdown.Item eventKey="15$">15$</Dropdown.Item>
+            <Dropdown.Item eventKey="18$">18$</Dropdown.Item>
+          </DropdownButton>
           <br />
         </div>
         <div className="form-group col-6">

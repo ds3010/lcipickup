@@ -1,13 +1,13 @@
 import { useState, useContext } from "react";
 import { Button } from "react-bootstrap";
 import AuthContext from "../../Authentication/Context/auth-context";
-import ScheduleContext from "./Context/schedule-context";
+// import ScheduleContext from "./Context/schedule-context";
 import { useNavigate } from "react-router-dom";
 import trashSVG from "../../../assets/icons/trash.svg";
 import editSVG from "../../../assets/icons/edit.svg";
 import collapse from "../../../assets/icons/arrows-collapse.svg";
 import expand from "../../../assets/icons/arrows-expand.svg";
-import { getFirestore, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import checkCircle from "../../../assets/icons/check-circle.svg";
 //import "./Game.css";
 
@@ -17,10 +17,10 @@ const Game = (props) => {
   const [optionSelected, setOptionSelected] = useState("");
 
   const authCtx = useContext(AuthContext);
-  const scheduleCtx = useContext(ScheduleContext);
+  //const scheduleCtx = useContext(ScheduleContext);
   //console.log(scheduleCtx.games);
 
-  const fbdB = getFirestore(props.firebaseConn);
+  //const fbdB = getFirestore(props.firebaseConn);
 
   const expandOrCollapse = () => {
     setIsActive((prev) => {
@@ -32,7 +32,7 @@ const Game = (props) => {
   //console.log()
 
   const onOptionSelected = (e) => {
-    console.log(e.target);
+    //console.log(e.target);
     setOptionSelected(e.target.value);
     setBtnActive(true);
   };
@@ -266,7 +266,7 @@ const Game = (props) => {
                       </th>
                       <td>{option.timeFrom}</td>
                       <td>{option.timeTo}</td>
-                      <td>{option.cost}$</td>
+                      <td>{option.cost}</td>
                       <td>
                         {parseInt(option.maxPlayers) -
                           option.signedUpUsers.length}
@@ -275,21 +275,6 @@ const Game = (props) => {
                     </tr>
                   );
                 })}
-                {/* <div className="form-check" key={option.id}>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name={option.date}
-                    id={option.date}
-                    onChange={onOptionSelected}
-                  />
-                  <label className="form-check-label">
-                    {option.timeFrom + " to " + option.timeTo}
-                    <p className="d-inline text-monospace">
-                      ({option.cost}CAD)
-                    </p>
-                  </label>
-                </div> */}
               </tbody>
             </table>
           </div>
