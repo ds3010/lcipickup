@@ -56,7 +56,7 @@ const SignUpForm = (props) => {
               email: res.user.email,
               firstName: "",
               lastName: "",
-              gamesPlayedSoFar: [],
+              gameToAdd: {},
               displayName: "",
               phoneNumber: "",
               isAdmin: false,

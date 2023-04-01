@@ -9,9 +9,9 @@ const AuthContext = React.createContext({
   displayName: "",
   isLoggedIn: false,
   isAdmin: false,
-  gamesPlayed: [],
+  gameToPlay: {},
   phoneNumber: "",
-  updategames: (games) => {},
+  updategameToPlay: (game) => {},
   updateProfile: (displayName, phoneNumber, firstName, lastName) => {},
   updateAdminStatus: (isAdmin) => {},
   login: (token, email, userId) => {},
@@ -27,7 +27,7 @@ export const AuthContextProvider = (props) => {
   const [displayName, setdisplayName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [phoneNumber, setphoneNumber] = useState("");
-  const [games, setgames] = useState([]);
+  const [gameToPlay, setgameToPlay] = useState({});
 
   const userIsLoggedIn = !!token;
   // console.log("In Context: ", userIsLoggedIn);
@@ -45,7 +45,7 @@ export const AuthContextProvider = (props) => {
     setfirstName(null);
     setlastName(null);
     setphoneNumber(null);
-    setgames([]);
+    setgameToPlay({});
     setIsAdmin(null);
   };
 
@@ -62,8 +62,8 @@ export const AuthContextProvider = (props) => {
     setlastName(lastName);
   };
 
-  const updategamesHandler = (games) => {
-    setgames(games);
+  const updategameToPlayHandler = (game) => {
+    setgameToPlay(game);
   };
 
   const adminHandler = (isAdmin) => {
@@ -83,10 +83,10 @@ export const AuthContextProvider = (props) => {
     login: loginHandler,
     logout: logoutHandler,
     updateAdminStatus: adminHandler,
-    games: games,
+    gameToPlay: gameToPlay,
     phoneNumber: phoneNumber,
     updateProfile: updateProfileHandler,
-    updategames: updategamesHandler,
+    updategameToPlay: updategameToPlayHandler,
   };
 
   return (

@@ -27,7 +27,7 @@ const Profile = (props) => {
   const fbDb = getFirestore(props.firebaseConn);
   const fbAuth = getAuth(props.firebaseConn);
   const currentUser = fbAuth.currentUser;
-
+  console.log("Profile")
   // console.log("CONTEXT:");
   // console.log(authCtx.displayName);
   // console.log(authCtx.firstName);
@@ -42,7 +42,7 @@ const Profile = (props) => {
   const onPasswordChange = (e) => {
     e.preventDefault();
     if (
-      currentpassword.current.value != "" ||
+      currentpassword.current.value !== "" ||
       password1.current.value !== "" ||
       password2.current.value !== ""
     ) {

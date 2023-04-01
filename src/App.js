@@ -5,7 +5,7 @@ import Home from "./components/MainScreenPages/Home/Home";
 import Profile from "./components/MainScreenPages/Profile/Profile";
 import SignUpForm from "./components/Authentication/SignUpForm";
 import SignInForm from "./components/Authentication/SignInForm";
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import SignOutWarning from "./components/Authentication/SignOutWarning";
 import { initializeApp } from "firebase/app";
 import AuthContext from "./components/Authentication/Context/auth-context";
@@ -47,20 +47,50 @@ function App() {
   const usersCtx = useContext(UsersContext);
   //Getting the Schedule collection reference
 
-  const [dateChosen, setDateChosen] = useState("");
-  const [gameIdChosen, setGameIdChosen] = useState("");
+  const[gameDownloadReattempt, setgameDownloadReattempt] = useState(1)
 
   useEffect(() => {
+
+    onAuthStateChanged(fbAuth, (user) => {
+      //console.log("Auth state changed")
+      if (user) {
+        //console.log("User exists")
+        //console.log(user);
+        authCtx.login(user.accessToken, user.email, user.uid);
+        const docRef = doc(fbDb, "users", user.uid);
+        getDoc(docRef).then((res) => {
+          //console.log("Inside getDoc in App.js");
+          //console.log("isAdmin:", res.data().isAdmin);
+          authCtx.updateAdminStatus(res.data().isAdmin);
+          authCtx.updategameToPlay(res.data().gameToPlay)
+          authCtx.updateProfile(
+            res.data().displayName,
+            res.data().phoneNumber,
+            res.data().firstName,
+            res.data().lastName
+          );
+        });
+      }
+    });
     const colRef = collection(fbDb, "schedule");
     const usersColRef = collection(fbDb, "users");
     //The following code is intended to save all games in the schedule context
+    //console.log("Use Effect")
     if (colRef !== null) {
       getDocs(colRef).then((res) => {
+        console.log("clearing games...")
         ScheduleCtx.clearGames();
-        //console.log("getting games")
+
+        console.log("getting games")
+        console.log("res:",res)
         res.docs.forEach((doc) => {
+          //console.log("game: " + doc)
           ScheduleCtx.addGame(doc.data());
         });
+        if (gameDownloadReattempt > 0 && res.docs.length === 0) {
+          console.log("Reattempting to download games...")
+          setgameDownloadReattempt(0)
+        }
       });
     }
 
@@ -80,42 +110,29 @@ function App() {
     }
   }, [authCtx.isAdmin]);
 
-  onAuthStateChanged(fbAuth, (user) => {
-    if (user) {
-      //console.log(user);
-      authCtx.login(user.accessToken, user.email, user.uid);
-      const docRef = doc(fbDb, "users", user.uid);
+  // onAuthStateChanged(fbAuth, (user) => {
+  //   if (user) {
+  //     //console.log(user);
+  //     authCtx.login(user.accessToken, user.email, user.uid);
+  //     const docRef = doc(fbDb, "users", user.uid);
 
-      //console.log(docRef);
-      getDoc(docRef).then((res) => {
-        //console.log("Inside getDoc in App.js");
-        //console.log("isAdmin:", res.data().isAdmin);
-        authCtx.updateAdminStatus(res.data().isAdmin);
-        authCtx.updateProfile(
-          res.data().displayName,
-          res.data().phoneNumber,
-          res.data().firstName,
-          res.data().lastName
-        );
-      });
-    }
-  });
-
+  //     //console.log('App.js, onAuthStateChanged')
+  //     getDoc(docRef).then((res) => {
+  //       //console.log("Inside getDoc in App.js");
+  //       //console.log("isAdmin:", res.data().isAdmin);
+  //       authCtx.updateAdminStatus(res.data().isAdmin);
+  //       authCtx.updategameToPlay(res.data().gameToPlay)
+  //       authCtx.updateProfile(
+  //         res.data().displayName,
+  //         res.data().phoneNumber,
+  //         res.data().firstName,
+  //         res.data().lastName
+  //       );
+  //     });
+  //   }
+  // });
+  //console.log(authCtx.userId)
   // const navigate = useNavigate();
-  const onAddUser = (date, gameId) => {
-    setDateChosen(date);
-    setGameIdChosen(gameId);
-    //console.log("HERE")
-  };
-
-  const onCancel = () => {
-    setDateChosen("");
-    setGameIdChosen("");
-  };
-
-  console.log(dateChosen);
-  console.log(gameIdChosen);
-  console.log(ScheduleCtx.games);
 
   return (
     <div className="App">
@@ -150,7 +167,7 @@ function App() {
           <Route
             path="/play/:date/:gameId"
             element={
-              <PlayGame firebaseConn={firebaseApp} onAccept={onAddUser} />
+              <PlayGame firebaseConn={firebaseApp}  />
             }
           />
           <Route
@@ -158,12 +175,10 @@ function App() {
             element={
               <Success
                 firebaseConn={firebaseApp}
-                date={dateChosen}
-                gameId={gameIdChosen}
               />
             }
           />
-          <Route path="/cancel" element={<Cancel onCancel={onCancel} />} />
+          <Route path="/cancel" element={<Cancel firebaseConn={firebaseApp} />} />
           <Route
             path="/userdetails/:userid"
             element={<UserDetails firebaseConn={firebaseApp} />}

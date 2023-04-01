@@ -7,7 +7,7 @@ import trashSVG from "../../../assets/icons/trash.svg";
 import editSVG from "../../../assets/icons/edit.svg";
 import collapse from "../../../assets/icons/arrows-collapse.svg";
 import expand from "../../../assets/icons/arrows-expand.svg";
-import { getFirestore } from "firebase/firestore";
+//import { getFirestore } from "firebase/firestore";
 import checkCircle from "../../../assets/icons/check-circle.svg";
 //import "./Game.css";
 

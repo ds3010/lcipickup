@@ -1,15 +1,17 @@
 import Game from "./Game";
 import AuthContext from "../../Authentication/Context/auth-context";
 import ScheduleContext from "./Context/schedule-context";
-import { useContext, useState } from "react";
+import { useContext, useState,  useEffect} from "react";
 import { Button } from "react-bootstrap";
 import NewGameForm from "./NewGameForm";
+// import { useParams } from "react-router-dom";
 
 const Schedule = (props) => {
   const [isAdding, setIsAdding] = useState(false);
 
   const ScheduleCtx = useContext(ScheduleContext);
   const authCtx = useContext(AuthContext);
+  const [reloadMessage, setReloadMessage] = useState(false)
 
   const onAddingGameHandler = () => {
     setIsAdding(true);
@@ -18,6 +20,25 @@ const Schedule = (props) => {
   const stopAddingHandler = () => {
     setIsAdding(false);
   };
+
+  useEffect(() =>{
+    if(ScheduleCtx.games.length === 0) {
+      console.log("Empty Games Detected")
+      setReloadMessage(true)
+    } else {
+      setReloadMessage(false)
+    }
+  },[ScheduleCtx.games.length])
+
+
+  //console.log("Schedule")
+  //console.log(ScheduleCtx.games)
+
+  // //Forcing a refreh
+  // const [refreshed, setrefreshed] = useState(false)
+  // if(!refreshed) {
+  //   setrefreshed(true)
+  // }
 
   return (
     <>
@@ -31,6 +52,9 @@ const Schedule = (props) => {
             Add Game
           </Button>
         )}
+        {reloadMessage &&<><br /><div className="alert alert-success text-center">
+        <strong>Please reload your browser to update game schedule</strong>
+      </div></>}
         <br />
         {isAdding && (
           <NewGameForm

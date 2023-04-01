@@ -11,7 +11,7 @@ const NewTimeOptionForm = (props) => {
   // const cost = useRef();
   const maxPlayers = useRef();
 
-  const [cost, setCost] = useState("15$");
+  
 
   //After removing a time option, if other options were configured and have already been applied, we will receive these values as props
   //from NewGameForm.js and we should automatically set those values so the admin doesn't need to add them again
@@ -47,6 +47,7 @@ const NewTimeOptionForm = (props) => {
   const [timeAccepted, setTimeAccepted] = useState(false);
   const [inputClass, setInputClass] = useState("");
   const [format, setFormat] = useState("7vs7");
+  const [cost, setCost] = useState("15$");
 
   const onAccept = () => {
     // Only accept option time if all three values have been added properly
