@@ -38,22 +38,13 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASURE_ID,
 };
 
-console.log(process.env.REACT_APP_FB_KEY);
-console.log(process.env.REACT_APP_AUTH_DOMAIN);
-console.log(process.env.REACT_APP_PROJ_ID);
-console.log(process.env.REACT_APP_STORE_BUCKET);
-console.log(process.env.REACT_APP_MESSAGE_SENDERID);
-console.log(process.env.REACT_APP_APP_ID);
-console.log(process.env.REACT_APP_MEASURE_ID);
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
-//   authDomain: "lcipickup.firebaseapp.com",
-//   projectId: "lcipickup",
-//   storageBucket: "lcipickup.appspot.com",
-//   messagingSenderId: "434774837806",
-//   appId: "1:434774837806:web:d8e75d814a511cc100edbf",
-//   measurementId: "G-KV12R16JG1",
-// };
+// console.log(process.env.REACT_APP_FB_KEY);
+// console.log(process.env.REACT_APP_AUTH_DOMAIN);
+// console.log(process.env.REACT_APP_PROJ_ID);
+// console.log(process.env.REACT_APP_STORE_BUCKET);
+// console.log(process.env.REACT_APP_MESSAGE_SENDERID);
+// console.log(process.env.REACT_APP_APP_ID);
+// console.log(process.env.REACT_APP_MEASURE_ID);
 
 function App() {
   const firebaseApp = initializeApp(firebaseConfig);
