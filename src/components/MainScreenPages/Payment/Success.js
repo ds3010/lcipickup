@@ -81,7 +81,11 @@ const Success = (props) => {
       <br />
 
       <div className="alert alert-success text-center">
-        <strong>You have have been successfully added to this game</strong>
+        <strong>You have have been successfully added to this game.</strong>
+        <strong>
+          After exiting this message, please refresh the "Schedule" page as it
+          might not be updated with the latest transaction
+        </strong>
       </div>
 
       <br />
