@@ -16,6 +16,8 @@ const Game = (props) => {
   const [btnActive, setBtnActive] = useState(false);
   const [optionSelected, setOptionSelected] = useState("");
 
+  console.log(props);
+
   const authCtx = useContext(AuthContext);
   //const scheduleCtx = useContext(ScheduleContext);
   //console.log(scheduleCtx.games);

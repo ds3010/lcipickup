@@ -12,7 +12,7 @@ const PlayGame = (props) => {
   const scheduleCtx = useContext(ScheduleContext);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
-  const [loadingPaymentScreen, setLoadingPaymentScreen] = useState(false)
+  const [loadingPaymentScreen, setLoadingPaymentScreen] = useState(false);
 
   const game = {
     ...scheduleCtx.games.filter((game) => game.date === params.date)[0],
@@ -27,21 +27,23 @@ const PlayGame = (props) => {
     navigate("/schedule");
   };
 
-  const fbDb = getFirestore(props.firebaseConn)
+  const fbDb = getFirestore(props.firebaseConn);
   const onPaymentHandler = async () => {
     //Try to contact Stripe, if successful, set the gameToPlay attribute in firebase for this user to this game
-    setLoadingPaymentScreen(true)
+    setLoadingPaymentScreen(true);
     const docRef = doc(fbDb, "users", authCtx.userId);
     await updateDoc(docRef, {
       gameToPlay: {
         date: params.date,
-        gameId: params.gameId
-      }
-    }).then((res) => {
-      console.log(res.json());
-    }).catch((err) => {
-      console.log(err.message);
-    });
+        gameId: params.gameId,
+      },
+    })
+      .then((res) => {
+        console.log(res.json());
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
 
     //STRIPE CLIENT HERE TODO:
     await fetch("http://localhost:4000/checkout", {
@@ -52,14 +54,16 @@ const PlayGame = (props) => {
       body: JSON.stringify({
         items: [{ id: getGameIdForPayment(optionsCopy[params.gameId].cost) }],
       }),
-    }).then(res =>{
-      return res.json();
-    }).then((response) =>{
-      if (response.url) {
-        console.log("HERE")        
-        window.location.assign(response.url); //Forwarding user to stripe
-      }
-    });
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        if (response.url) {
+          console.log("HERE");
+          window.location.assign(response.url); //Forwarding user to stripe
+        }
+      });
   };
 
   return (
@@ -77,12 +81,12 @@ const PlayGame = (props) => {
       <Button onClick={onPaymentHandler} className="m-1">
         Go Pay!
       </Button>
-      <br/>
-      {loadingPaymentScreen && <div className="alert alert-info text-center">
-        <strong>
-          Loading Payment Site...
-        </strong>
-      </div>}
+      <br />
+      {loadingPaymentScreen && (
+        <div className="alert alert-info text-center">
+          <strong>Loading Payment Site...</strong>
+        </div>
+      )}
     </ModalScreen>
   );
 };

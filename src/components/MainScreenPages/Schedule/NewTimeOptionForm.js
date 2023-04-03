@@ -87,7 +87,7 @@ const NewTimeOptionForm = (props) => {
   };
 
   const onHandleSelect = (e) => {
-    console.log(e);
+    //console.log(e);
     setCost(e);
   };
   return (
