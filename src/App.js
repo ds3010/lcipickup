@@ -29,14 +29,31 @@ import Success from "./components/MainScreenPages/Payment/Success";
 import Cancel from "./components/MainScreenPages/Payment/Cancel";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
-  authDomain: "lcipickup.firebaseapp.com",
-  projectId: "lcipickup",
-  storageBucket: "lcipickup.appspot.com",
-  messagingSenderId: "434774837806",
-  appId: "1:434774837806:web:d8e75d814a511cc100edbf",
-  measurementId: "G-KV12R16JG1",
+  apiKey: process.env.REACT_APP_FB_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJ_ID,
+  storageBucket: process.env.REACT_APP_STORE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGE_SENDERID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASURE_ID,
 };
+
+console.log(process.env.REACT_APP_FB_KEY);
+console.log(process.env.REACT_APP_AUTH_DOMAIN);
+console.log(process.env.REACT_APP_PROJ_ID);
+console.log(process.env.REACT_APP_STORE_BUCKET);
+console.log(process.env.REACT_APP_MESSAGE_SENDERID);
+console.log(process.env.REACT_APP_APP_ID);
+console.log(process.env.REACT_APP_MEASURE_ID);
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAlbXSydfzZtglP1kFpWW6zmL7N9v1El2s",
+//   authDomain: "lcipickup.firebaseapp.com",
+//   projectId: "lcipickup",
+//   storageBucket: "lcipickup.appspot.com",
+//   messagingSenderId: "434774837806",
+//   appId: "1:434774837806:web:d8e75d814a511cc100edbf",
+//   measurementId: "G-KV12R16JG1",
+// };
 
 function App() {
   const firebaseApp = initializeApp(firebaseConfig);
@@ -47,10 +64,9 @@ function App() {
   const usersCtx = useContext(UsersContext);
   //Getting the Schedule collection reference
 
-  const[gameDownloadReattempt, setgameDownloadReattempt] = useState(1)
+  const [gameDownloadReattempt, setgameDownloadReattempt] = useState(1);
 
   useEffect(() => {
-
     onAuthStateChanged(fbAuth, (user) => {
       //console.log("Auth state changed")
       if (user) {
@@ -62,7 +78,7 @@ function App() {
           //console.log("Inside getDoc in App.js");
           //console.log("isAdmin:", res.data().isAdmin);
           authCtx.updateAdminStatus(res.data().isAdmin);
-          authCtx.updategameToPlay(res.data().gameToPlay)
+          authCtx.updategameToPlay(res.data().gameToPlay);
           authCtx.updateProfile(
             res.data().displayName,
             res.data().phoneNumber,
@@ -78,18 +94,18 @@ function App() {
     //console.log("Use Effect")
     if (colRef !== null) {
       getDocs(colRef).then((res) => {
-        console.log("clearing games...")
+        console.log("clearing games...");
         ScheduleCtx.clearGames();
 
-        console.log("getting games")
-        console.log("res:",res)
+        console.log("getting games");
+        console.log("res:", res);
         res.docs.forEach((doc) => {
           //console.log("game: " + doc)
           ScheduleCtx.addGame(doc.data());
         });
         if (gameDownloadReattempt > 0 && res.docs.length === 0) {
-          console.log("Reattempting to download games...")
-          setgameDownloadReattempt(0)
+          console.log("Reattempting to download games...");
+          setgameDownloadReattempt(0);
         }
       });
     }
@@ -166,19 +182,16 @@ function App() {
           />
           <Route
             path="/play/:date/:gameId"
-            element={
-              <PlayGame firebaseConn={firebaseApp}  />
-            }
+            element={<PlayGame firebaseConn={firebaseApp} />}
           />
           <Route
             path="/aaokyU3dphUVoJEMV6hQTaEhLiEn9z8eUTWugdCHNE014sp8zfEiV6YU9MaLtNwQi97H7WBhBHo21zqunD0ZgBgAJWj7fhqZy0BZ"
-            element={
-              <Success
-                firebaseConn={firebaseApp}
-              />
-            }
+            element={<Success firebaseConn={firebaseApp} />}
           />
-          <Route path="/cancel" element={<Cancel firebaseConn={firebaseApp} />} />
+          <Route
+            path="/cancel"
+            element={<Cancel firebaseConn={firebaseApp} />}
+          />
           <Route
             path="/userdetails/:userid"
             element={<UserDetails firebaseConn={firebaseApp} />}
