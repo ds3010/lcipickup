@@ -44,7 +44,7 @@ const Schedule = (props) => {
   const currentDate = new Date();
   //console.log(currentDate);
   const currentDateDate = currentDate.getDate();
-  //const currentDateTs = currentDate.getTime();
+  const currentDateTs = currentDate.getTime();
   //console.log(currentDateTs);
   const currentDateMonth = currentDate.getMonth();
   const currentDateYear = currentDate.getFullYear();
@@ -53,14 +53,83 @@ const Schedule = (props) => {
   let futureGames = [];
   let todayGames = [];
   let signedUpGames = [];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const dates = [
+    "1st",
+    "2nd",
+    "3rd",
+    "4th",
+    "5th",
+    "6th",
+    "7th",
+    "8th",
+    "9th",
+    "10th",
+    "11th",
+    "12th",
+    "13th",
+    "14th",
+    "15th",
+    "16th",
+    "17th",
+    "18th",
+    "19th",
+    "20th",
+    "21st",
+    "22nd",
+    "23rd",
+    "24th",
+    "25th",
+    "26th",
+    "27th",
+    "28th",
+    "29th",
+    "30th",
+    "31st",
+  ];
   ScheduleCtx.games.forEach((game) => {
     const gameCopy = { ...game };
     const thisGame = new Date(game.date + " EDT");
+    const thisGameDate = thisGame.getDate();
+    const thisGameMonth = thisGame.getMonth();
+
+    const thisGameYear = thisGame.getFullYear();
+    const thisGameDay = thisGame.getDay();
+    const thisGamets = thisGame.getTime();
     // See if this game has an option where there current user has already signed up
     game.options.forEach((option) => {
-      if (option.signedUpUsers.includes(authCtx.email)) {
+      if (
+        option.signedUpUsers.includes(authCtx.email) &&
+        currentDateTs < thisGamets
+      ) {
+        console.log(thisGameDate);
         signedUpGames.push({
-          date: game.date,
+          date: dates[thisGameDate - 1],
+          year: thisGameYear,
+          month: months[thisGameMonth],
+          day: days[thisGameDay],
           timeTo: option.timeTo,
           timeFrom: option.timeFrom,
           format: option.format,
@@ -68,9 +137,7 @@ const Schedule = (props) => {
       }
     });
     //console.log(thisGame);
-    const thisGameDate = thisGame.getDate();
-    const thisGameMonth = thisGame.getMonth();
-    const thisGameYear = thisGame.getFullYear();
+
     if (thisGameYear > currentDateYear) {
       futureGames.push(gameCopy);
     } else if (thisGameYear < currentDateYear) {
@@ -144,14 +211,15 @@ const Schedule = (props) => {
       {signedUpGames.length > 0 && (
         <>
           <div className="container">
-            <h3 className="text-center">
-              You have signed up for the following upcoming games
-            </h3>
             <div className="alert alert-success text-center">
+              <h3 className="text-center">
+                You have signed up for the following upcoming games
+              </h3>
+              <br />
               {signedUpGames.map((game) => (
                 <p>
                   <strong>
-                    {`${game.date} from ${game.timeFrom} to ${game.timeTo}. Format: ${game.format}`}{" "}
+                    {`${game.day}, ${game.month} ${game.date}, ${game.year}. From ${game.timeFrom} to ${game.timeTo}. Format: ${game.format}`}{" "}
                   </strong>
                 </p>
               ))}
