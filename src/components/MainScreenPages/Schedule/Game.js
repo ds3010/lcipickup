@@ -59,7 +59,7 @@ const Game = (props) => {
     const optIndex = props.data.options.findIndex(
       (option) => option.id === parseInt(optionSelected)
     );
-    console.log(optIndex);
+    //console.log(optIndex);
     navigate("/play/" + props.data.date + "/" + String(optIndex));
     // //console.log(optIndex);
     // const optionsCopy = [...{ ...props.data }.options];

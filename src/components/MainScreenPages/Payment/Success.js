@@ -15,10 +15,10 @@ const Success = (props) => {
   //const [gameId, setgameId] = useState("")
 
   const navigate = useNavigate();
-  console.log(scheduleCtx.games);
+ //console.log(scheduleCtx.games);
 
   // useEffect(()=>{
-  console.log(
+  //console.log(
     "authCtxGameToPlay: " +
       authCtx.gameToPlay.date +
       " " +

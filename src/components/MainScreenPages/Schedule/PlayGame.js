@@ -48,14 +48,14 @@ const PlayGame = (props) => {
       .then((res) => {
         //console.log(res.json());
         if (authCtx.isOrganizer) {
-          console.log(params.gameId);
+          //console.log(params.gameId);
           const game = {
             ...scheduleCtx.games.filter((game) => game.date === params.date)[0],
           };
           if (Object.keys(game).length > 0) {
             //console.log("Here");
             const optionsCopy = [...game.options];
-            console.log(optionsCopy);
+            //console.log(optionsCopy);
             if (
               !optionsCopy[parseInt(params.gameId)].signedUpUsers.includes(
                 authCtx.email
@@ -68,7 +68,7 @@ const PlayGame = (props) => {
                 date: params.date,
                 options: optionsCopy,
               };
-              console.log(newGame);
+              //console.log(newGame);
               //Delete old game and add new one in Context
               scheduleCtx.removeGame(params.date);
               scheduleCtx.addGame(newGame);
