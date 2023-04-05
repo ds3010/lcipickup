@@ -9,11 +9,13 @@ const AuthContext = React.createContext({
   displayName: "",
   isLoggedIn: false,
   isAdmin: false,
+  isOrganizer: false,
   gameToPlay: {},
   phoneNumber: "",
   updategameToPlay: (game) => {},
   updateProfile: (displayName, phoneNumber, firstName, lastName) => {},
   updateAdminStatus: (isAdmin) => {},
+  updateOrgStatus: (isOrganizer) => {},
   login: (token, email, userId) => {},
   logout: () => {},
 });
@@ -26,6 +28,7 @@ export const AuthContextProvider = (props) => {
   const [userId, setUserId] = useState("");
   const [displayName, setdisplayName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isOrg, setIsOrg] = useState(false);
   const [phoneNumber, setphoneNumber] = useState("");
   const [gameToPlay, setgameToPlay] = useState({});
 
@@ -47,6 +50,7 @@ export const AuthContextProvider = (props) => {
     setphoneNumber(null);
     setgameToPlay({});
     setIsAdmin(null);
+    setIsOrg(false);
   };
 
   //NEW
@@ -71,6 +75,10 @@ export const AuthContextProvider = (props) => {
     setIsAdmin(isAdmin);
   };
 
+  const orgHandler = (isOrg) => {
+    setIsOrg(isOrg);
+  };
+
   const contextValue = {
     token: token,
     email: email,
@@ -80,9 +88,11 @@ export const AuthContextProvider = (props) => {
     lastName: lastName,
     isLoggedIn: userIsLoggedIn,
     isAdmin: isAdmin,
+    isOrganizer: isOrg,
     login: loginHandler,
     logout: logoutHandler,
     updateAdminStatus: adminHandler,
+    updateOrgStatus: orgHandler,
     gameToPlay: gameToPlay,
     phoneNumber: phoneNumber,
     updateProfile: updateProfileHandler,

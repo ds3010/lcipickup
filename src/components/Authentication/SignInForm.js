@@ -65,7 +65,7 @@ const SignInForm = (props) => {
     <ModalScreen title="Sign In">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Email</label>
           <input
             ref={username}
             className="form-control"

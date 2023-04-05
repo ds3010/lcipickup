@@ -69,6 +69,7 @@ function App() {
           //console.log("Inside getDoc in App.js");
           //console.log("isAdmin:", res.data().isAdmin);
           authCtx.updateAdminStatus(res.data().isAdmin);
+          authCtx.updateOrgStatus(res.data().isOrganizer);
           authCtx.updategameToPlay(res.data().gameToPlay);
           authCtx.updateProfile(
             res.data().displayName,
@@ -116,6 +117,8 @@ function App() {
       }
     }
   }, [authCtx.isAdmin]);
+
+  console.log(authCtx.isOrganizer);
 
   // onAuthStateChanged(fbAuth, (user) => {
   //   if (user) {

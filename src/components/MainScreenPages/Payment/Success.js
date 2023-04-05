@@ -30,9 +30,8 @@ const Success = (props) => {
         (game) => game.date === authCtx.gameToPlay.date
       )[0],
     };
-    console.log(game);
     if (Object.keys(game).length > 0) {
-      console.log("Here");
+      //console.log("Here");
       const optionsCopy = [...game.options];
       console.log(optionsCopy);
       if (
@@ -82,10 +81,12 @@ const Success = (props) => {
 
       <div className="alert alert-success text-center">
         <strong>You have have been successfully added to this game.</strong>
-        <strong>
-          After exiting this message, please refresh the "Schedule" page as it
-          might not be updated with the latest transaction
-        </strong>
+        <p>
+          <strong>
+            After exiting this message, please refresh the "Schedule" page as it
+            might not be updated with the latest transaction
+          </strong>
+        </p>
       </div>
 
       <br />
