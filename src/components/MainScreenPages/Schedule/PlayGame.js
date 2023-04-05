@@ -37,7 +37,7 @@ const PlayGame = (props) => {
   const fbDb = getFirestore(props.firebaseConn);
   const onPaymentHandler = async () => {
     //Try to contact Stripe, if successful, set the gameToPlay attribute in firebase for this user to this game
-    //console.log(authCtx.userId);
+
     const docRef = doc(fbDb, "users", authCtx.userId);
     await updateDoc(docRef, {
       gameToPlay: {
@@ -48,6 +48,7 @@ const PlayGame = (props) => {
       .then((res) => {
         //console.log(res.json());
         if (authCtx.isOrganizer) {
+          console.log(params.gameId);
           const game = {
             ...scheduleCtx.games.filter((game) => game.date === params.date)[0],
           };
@@ -67,6 +68,7 @@ const PlayGame = (props) => {
                 date: params.date,
                 options: optionsCopy,
               };
+              console.log(newGame);
               //Delete old game and add new one in Context
               scheduleCtx.removeGame(params.date);
               scheduleCtx.addGame(newGame);

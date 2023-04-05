@@ -24,7 +24,7 @@ const Success = (props) => {
       " " +
       authCtx.gameToPlay.gameId
   );
-  if (scheduleCtx.games.length > 0) {
+  if (scheduleCtx.games.length > 0 && !authCtx.isOrganizer) {
     const game = {
       ...scheduleCtx.games.filter(
         (game) => game.date === authCtx.gameToPlay.date

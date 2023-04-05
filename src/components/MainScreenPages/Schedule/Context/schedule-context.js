@@ -30,7 +30,7 @@ export const ScheduleContextProvider = (props) => {
   const clearGamesHandler = () => {
     //console.log("Clearing Games: ");
     //console.log(games);
-    setGames("");
+    setGames([]);
   };
 
   const scheduleValue = {

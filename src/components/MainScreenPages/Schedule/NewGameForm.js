@@ -85,6 +85,7 @@ const NewGameForm = (props) => {
         timeFrom={timeFrom}
         timeTo={timeTo}
         maxPlayers={maxPlayers}
+        signedUpUsers={[]}
         requester="newGame"
         cost={cost}
         onTimeAdded={onTimeAdded}

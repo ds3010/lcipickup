@@ -11,7 +11,7 @@ const Schedule = (props) => {
 
   const ScheduleCtx = useContext(ScheduleContext);
   const authCtx = useContext(AuthContext);
-  const [reloadMessage, setReloadMessage] = useState(false);
+  // const [reloadMessage, setReloadMessage] = useState(false);
 
   //const params = useParams();
 
@@ -24,14 +24,14 @@ const Schedule = (props) => {
   };
 
   //console.log(params.refresh);
-  useEffect(() => {
-    if (ScheduleCtx.games.length === 0) {
-      console.log("Need to refresh");
-      setReloadMessage(true);
-    } else {
-      setReloadMessage(false);
-    }
-  }, [ScheduleCtx.games.length]);
+  // useEffect(() => {
+  //   if (ScheduleCtx.games.length === 0) {
+  //     console.log("Need to refresh");
+  //     setReloadMessage(true);
+  //   } else {
+  //     setReloadMessage(false);
+  //   }
+  // }, [ScheduleCtx.games.length]);
 
   //console.log("Schedule")
   //console.log(ScheduleCtx.games)
@@ -189,7 +189,7 @@ const Schedule = (props) => {
             Add a New Date
           </Button>
         )}
-        {reloadMessage && (
+        {/* {reloadMessage && (
           <>
             <br />
             <div className="alert alert-danger text-center">
@@ -199,7 +199,7 @@ const Schedule = (props) => {
               </strong>
             </div>
           </>
-        )}
+        )} */}
         <br />
         {isAdding && (
           <NewGameForm
@@ -217,8 +217,8 @@ const Schedule = (props) => {
                 You have registered for the following upcoming games
               </h3>
               <br />
-              {signedUpGames.map((game) => (
-                <p>
+              {signedUpGames.map((game, index) => (
+                <p key={index}>
                   <strong>
                     {`${game.day}, ${game.month} ${game.date}, ${game.year}. From ${game.timeFrom} to ${game.timeTo}. Format: ${game.format}`}{" "}
                   </strong>

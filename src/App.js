@@ -86,17 +86,17 @@ function App() {
     //console.log("Use Effect")
     if (colRef !== null) {
       getDocs(colRef).then((res) => {
-        console.log("clearing games...");
+        //console.log("clearing games...");
         ScheduleCtx.clearGames();
 
-        console.log("getting games");
-        console.log("res:", res);
+        //console.log("getting games");
+        //console.log("res:", res);
         res.docs.forEach((doc) => {
           //console.log("game: " + doc)
           ScheduleCtx.addGame(doc.data());
         });
         if (gameDownloadReattempt > 0 && res.docs.length === 0) {
-          console.log("Reattempting to download games...");
+          //console.log("Reattempting to download games...");
           setgameDownloadReattempt(0);
         }
       });
@@ -118,7 +118,7 @@ function App() {
     }
   }, [authCtx.isAdmin]);
 
-  console.log(authCtx.isOrganizer);
+  //console.log(authCtx.isOrganizer);
 
   // onAuthStateChanged(fbAuth, (user) => {
   //   if (user) {
