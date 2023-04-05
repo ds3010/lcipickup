@@ -27,7 +27,7 @@ const Header = () => {
       { name: "Sign Up", key: 2 },
     ];
     //menu options for signed in users
-  } else if (authCtx.isLoggedIn && authCtx.isAdmin){
+  } else if (authCtx.isLoggedIn && authCtx.isAdmin) {
     options = [
       { name: "Manage Users", key: 0 },
       { name: "Schedule", key: 1 },
@@ -40,7 +40,7 @@ const Header = () => {
       },
       { name: "Sign Out", key: 3 },
     ];
-  } else if (authCtx.isLoggedIn && !authCtx.isAdmin){
+  } else if (authCtx.isLoggedIn && !authCtx.isAdmin) {
     options = [
       { name: "Schedule", key: 0 },
       {
@@ -61,7 +61,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-secondary mb-3">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
         <div className="container-fluid">
           {/*FOR BELOW LINE:  Line 61:11:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a 
         valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. 

@@ -3,6 +3,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useRef } from "react";
 import "./NewTimeOptionForm.css";
+import checkSquare from "../../../assets/icons/check-square.svg";
+import trashSVG from "../../../assets/icons/trash-whitelines.svg";
 
 const NewTimeOptionForm = (props) => {
   //Setting references for inputs to keep track of them
@@ -10,8 +12,6 @@ const NewTimeOptionForm = (props) => {
   const timeTo = useRef();
   // const cost = useRef();
   const maxPlayers = useRef();
-
-  
 
   //After removing a time option, if other options were configured and have already been applied, we will receive these values as props
   //from NewGameForm.js and we should automatically set those values so the admin doesn't need to add them again
@@ -93,8 +93,9 @@ const NewTimeOptionForm = (props) => {
   return (
     <>
       <div className="row">
+        <h4>Game Details:</h4>
         <div className="form-group col-6">
-          <label htmlFor="time">Time From</label>
+          <label htmlFor="time">From</label>
           <input
             ref={timeFrom}
             defaultValue={props.timeFrom}
@@ -105,7 +106,7 @@ const NewTimeOptionForm = (props) => {
           />
         </div>
         <div className="form-group col-6">
-          <label htmlFor="time">Time To</label>
+          <label htmlFor="time">To</label>
           <input
             ref={timeTo}
             defaultValue={props.timeTo}
@@ -208,26 +209,35 @@ const NewTimeOptionForm = (props) => {
       <div className="text-end">
         {/* Disabling the button if the time has already been accepted */}
         {!timeAccepted ? (
-          <Button type="button" className="m-1 btn-success" onClick={onAccept}>
-            Confirm Time
+          <Button className="m-1 btn-success" onClick={onAccept}>
+            <img
+              src={checkSquare}
+              alt="confirm game"
+              // className="bg-success"
+            ></img>
           </Button>
         ) : (
-          <Button
-            type="button"
-            className="m-1 btn-success disabled"
-            onClick={onAccept}
-          >
-            Confirm Time
+          <Button className="m-1 btn-success disabled" onClick={onAccept}>
+            <img
+              src={checkSquare}
+              alt="confirm game"
+              // className="bg-success"
+            ></img>
           </Button>
         )}
         <Button type="button" className="m-1 btn-danger" onClick={onRemove}>
-          Remove
+          <img
+            src={trashSVG}
+            alt="remove game"
+            // className="bg-success"
+          ></img>
         </Button>
         {!timeAccepted && inputClass === "is-invalid" && (
           <div className="alert alert-danger text-center">
             <strong>Please complete the above form</strong>
           </div>
         )}
+        <hr className="border border-1 border-dark"></hr>
       </div>
 
       {/* </form> */}

@@ -37,7 +37,7 @@ const Users = (props) => {
   }
 
   return (
-    <div className="container">
+    <div className="container mt-3">
       <div className="text-center">
         <h3>Players</h3>
       </div>

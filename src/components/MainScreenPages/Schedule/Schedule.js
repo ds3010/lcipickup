@@ -124,7 +124,7 @@ const Schedule = (props) => {
         option.signedUpUsers.includes(authCtx.email) &&
         currentDateTs < thisGamets
       ) {
-        console.log(thisGameDate);
+        //console.log(thisGameDate);
         signedUpGames.push({
           date: dates[thisGameDate - 1],
           year: thisGameYear,
@@ -175,17 +175,17 @@ const Schedule = (props) => {
   // console.log("previous Games:", previousGames);
   // console.log("today Games:", todayGames);
 
-  console.log(signedUpGames.length);
+  //console.log(signedUpGames.length);
   return (
     <>
-      <div className="container text-center">
+      <div className="container text-center mt-3">
         {/* <h3>Schedule</h3> */}
         {authCtx.isAdmin && (
           <Button
             className="d-block btn-success col-12"
             onClick={onAddingGameHandler}
           >
-            Add Game
+            Add a New Date
           </Button>
         )}
         {reloadMessage && (
@@ -213,7 +213,7 @@ const Schedule = (props) => {
           <div className="container">
             <div className="alert alert-success text-center">
               <h3 className="text-center">
-                You have signed up for the following upcoming games
+                You have registered for the following upcoming games
               </h3>
               <br />
               {signedUpGames.map((game) => (

@@ -27,7 +27,7 @@ const Profile = (props) => {
   const fbDb = getFirestore(props.firebaseConn);
   const fbAuth = getAuth(props.firebaseConn);
   const currentUser = fbAuth.currentUser;
-  console.log("Profile")
+  //console.log("Profile")
   // console.log("CONTEXT:");
   // console.log(authCtx.displayName);
   // console.log(authCtx.firstName);
@@ -110,7 +110,7 @@ const Profile = (props) => {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-3">
       {(authCtx.displayName === "" ||
         authCtx.firstName === "" ||
         authCtx.lastName === "" ||
@@ -128,7 +128,7 @@ const Profile = (props) => {
       ) : (
         <>
           <div className="text-center">
-            <h4>My Details</h4>
+            <h3>My Details</h3>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -187,7 +187,7 @@ const Profile = (props) => {
             </div>
           </form>
           <div className="text-center">
-            <h4>Password Change</h4>
+            <h3>Password Change</h3>
           </div>
           <form onSubmit={onPasswordChange}>
             <div className="form-group">

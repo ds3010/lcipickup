@@ -3,6 +3,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 import { getFirestore, doc, setDoc, deleteDoc } from "firebase/firestore/lite";
 import NewTimeOptionForm from "./NewTimeOptionForm";
 import ScheduleContext from "./Context/schedule-context";
+import checkSquare from "../../../assets/icons/check-square.svg";
 
 const NewGameForm = (props) => {
   const date = useRef();
@@ -187,91 +188,101 @@ const NewGameForm = (props) => {
 
   //JSX
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="date">Date</label>
-        {dateTyped.includes("-") ? (
-          <input
-            ref={date}
-            defaultValue={props.date}
-            className="form-control is-valid"
-            type="date"
-            id="date"
-            onChange={onAddingDate}
-          />
-        ) : (
-          <input
-            ref={date}
-            className="form-control is-invalid"
-            type="date"
-            id="date"
-            onChange={onAddingDate}
-          />
-        )}
-      </div>
-      <br />
-
-      {timeOptions}
-      {(!dateTyped.includes("-") || options.length === 0) && (
-        <div className="alert alert-info text-center">
-          <strong>
-            Make sure to at least confirm one time option and to add a valid
-            date before attempting to save
-          </strong>
+    <>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="date">Date</label>
+          {dateTyped.includes("-") ? (
+            <input
+              ref={date}
+              defaultValue={props.date}
+              className="form-control is-valid"
+              type="date"
+              id="date"
+              onChange={onAddingDate}
+            />
+          ) : (
+            <input
+              ref={date}
+              className="form-control is-invalid"
+              type="date"
+              id="date"
+              onChange={onAddingDate}
+            />
+          )}
         </div>
-      )}
+        <br />
+        <hr className="border border-1 border-dark"></hr>
 
-      <Button
-        className="m-1"
-        type="button"
-        variant="primary"
-        onClick={onAddingOption}
-      >
-        Add a Time Option
-      </Button>
-
-      <Button className="m-1" variant="secondary" onClick={onCloseHandler}>
-        Cancel
-      </Button>
-      {addGameBtnReady && !gameAlreadyExists ? (
-        <Button className="m-1" type="submit" variant="primary">
-          Save Game
-        </Button>
-      ) : (
-        <Button className="m-1 disabled" type="submit" variant="primary">
-          Save Game
-        </Button>
-      )}
-      {gameAlreadyExists && (
-        <div className="alert alert-danger">
-          <strong>
-            A game for {dateTyped} already exists, would you like to replace it?
-          </strong>
-          <div>
-            {" "}
-            <Button
-              className="m-1"
-              variant="secondary"
-              onClick={onCloseHandler}
-            >
-              No
-            </Button>
-            <Button
-              className="m-1"
-              variant="primary"
-              onClick={onReplacingGameHandler}
-            >
-              Yes
-            </Button>
+        {timeOptions}
+        {(!dateTyped.includes("-") || options.length === 0) && (
+          <div className="alert alert-warning text-center">
+            <strong>Note:</strong> Make sure to fill out at least one game
+            details form and to enter a valid date. Then confirm the game
+            details with the green check mark button (
+            <img src={checkSquare} className="bg-success"></img>) in order to be
+            able to save the game in the database. You may add more games with
+            the "add More Games for this Date" button before saving the date
           </div>
+        )}
+        <div>
+          <Button
+            className="m-1"
+            type="button"
+            variant="warning"
+            onClick={onAddingOption}
+          >
+            Add More Games for this Date
+          </Button>
         </div>
-      )}
-      {newGameAdded && (
-        <div className="alert alert-success">
-          <strong>New Game has been added to Schedule</strong>
-        </div>
-      )}
-    </form>
+
+        <Button className="m-1" variant="secondary" onClick={onCloseHandler}>
+          Cancel
+        </Button>
+        {addGameBtnReady && !gameAlreadyExists ? (
+          <Button className="m-1" type="submit" variant="success">
+            Save Date
+          </Button>
+        ) : (
+          <Button className="m-1 disabled" type="submit" variant="secondary">
+            Save Date
+          </Button>
+        )}
+        {gameAlreadyExists && (
+          <div className="alert alert-danger">
+            <strong>
+              A game for {dateTyped} already exists, would you like to replace
+              it?
+            </strong>
+            <div>
+              {" "}
+              <Button
+                className="m-1"
+                variant="secondary"
+                onClick={onCloseHandler}
+              >
+                No
+              </Button>
+              <Button
+                className="m-1"
+                variant="primary"
+                onClick={onReplacingGameHandler}
+              >
+                Yes
+              </Button>
+            </div>
+          </div>
+        )}
+        {newGameAdded && (
+          <div className="alert alert-success">
+            <strong>New Game has been added to Schedule</strong>
+          </div>
+        )}
+      </form>
+      <div className="m-0 p-0">
+        <hr className="border border-3 border-dark"></hr>
+      </div>
+    </>
   );
 };
 

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const User = (props) => {
   const authCtx = useContext(AuthContext);
+  console.log(props);
 
   const navigate = useNavigate();
 
