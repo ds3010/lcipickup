@@ -15,15 +15,15 @@ const Success = (props) => {
   //const [gameId, setgameId] = useState("")
 
   const navigate = useNavigate();
- //console.log(scheduleCtx.games);
+  //console.log(scheduleCtx.games);
 
   // useEffect(()=>{
-  //console.log(
-    "authCtxGameToPlay: " +
-      authCtx.gameToPlay.date +
-      " " +
-      authCtx.gameToPlay.gameId
-  );
+  // console.log(
+  //   "authCtxGameToPlay: " +
+  //     authCtx.gameToPlay.date +
+  //     " " +
+  //     authCtx.gameToPlay.gameId
+  // );
   if (scheduleCtx.games.length > 0 && !authCtx.isOrganizer) {
     const game = {
       ...scheduleCtx.games.filter(
