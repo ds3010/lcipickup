@@ -67,7 +67,7 @@ const SignUpForm = (props) => {
           setFormMessage("Welcome!");
           setFormSubmitted(true);
           authCtx.login(res.user.accessToken, res.user.email, res.user.uid);
-          authCtx.updateProfile("","","","")
+          authCtx.updateProfile("", "", "", "");
           authCtx.updateAdminStatus(false);
           setTimeout(function () {
             onCloseHandler();
@@ -95,7 +95,7 @@ const SignUpForm = (props) => {
     <ModalScreen title="Sign Up">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Email</label>
           <input
             ref={username}
             className="form-control"
