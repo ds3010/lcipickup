@@ -88,7 +88,7 @@ const PlayGame = (props) => {
           );
         } else {
           setLoadingPaymentScreen(true);
-          fetch("http://localhost:4000/checkout", {
+          fetch(process.env.REACT_APP_CHECKOUT_URL, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
