@@ -83,8 +83,7 @@ const Success = (props) => {
         <strong>You have have been successfully added to this game.</strong>
         <p>
           <strong>
-            After exiting this message, please refresh the "Schedule" page as it
-            might not be updated with the latest transaction
+            You might need to refresh the "Schedule" page
           </strong>
         </p>
       </div>
