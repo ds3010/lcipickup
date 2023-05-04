@@ -113,14 +113,17 @@ const Schedule = (props) => {
   ScheduleCtx.games.forEach((game) => {
     const gameCopy = { ...game };
     const thisGame = new Date(game.date + " EDT");
+    //The following conversions are NOT working for iOS browsers (both chrome and safari have been tested)
     const thisGameDate = thisGame.getDate();
     const thisGameMonth = thisGame.getMonth();
-
     const thisGameYear = thisGame.getFullYear();
     const thisGameDay = thisGame.getDay();
     const thisGamets = thisGame.getTime();
+
+    //Console Logs to Tshoot the above
     console.log("+++++++++++++++++++++++++++++++");
     console.log("Original Date from Firebase: " + game.date);
+    console.log("THIS GAME VARIABLE THAT LEADS TO THE BELOW: " + thisGame);
     console.log("Date converted: ", thisGameDate);
     console.log("Month converted: ", thisGameMonth);
     console.log("Year converted: ", thisGameYear);
