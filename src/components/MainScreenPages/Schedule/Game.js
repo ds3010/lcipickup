@@ -83,7 +83,8 @@ const Game = (props) => {
     // });
   };
 
-  const gamedate = new Date(props.data.date + " EDT");
+  const gamedate = new Date(props.data.date);
+  // const gamedate = new Date(props.data.date + " EDT");
 
   const dayNumber = gamedate.getDay();
   //console.log(dayNumber);
