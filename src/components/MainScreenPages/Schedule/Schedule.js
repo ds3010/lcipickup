@@ -114,7 +114,8 @@ const Schedule = (props) => {
     const gameCopy = { ...game };
 
     const dateNewFormat = game.date.replaceAll("-", "/");
-    const thisGame = new Date(game.date + " EDT");
+    // const thisGame = new Date(game.date + " EDT");
+    const thisGame = new Date(game.date);
     console.log(dateNewFormat);
     //The following conversions are NOT working for iOS browsers (both chrome and safari have been tested)
     const thisGameDate = thisGame.getDate();
