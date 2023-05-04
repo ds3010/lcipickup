@@ -140,9 +140,13 @@ const Schedule = (props) => {
     console.log("Year converted: ", thisGameYear);
     console.log("Day converted: ", thisGameDay);
     console.log("ts converted: ", thisGamets);
+
     //console.log(thisGamets);
     // See if this game has an option where there current user has already signed up
     game.options.forEach((option) => {
+      console.log("Month: " + months[thisGameMonth]);
+      console.log("Date: " + dates[thisGameDate - 1]);
+      console.log("Day: " + days[thisGameDay]);
       if (
         option.signedUpUsers.includes(authCtx.email) &&
         currentDateTs <= thisGamets + 86400000
