@@ -87,13 +87,13 @@ const Game = (props) => {
   // const gamedate = new Date(props.data.date + " EDT");
 
   const dayNumber = gamedate.getDay();
-  //console.log(dayNumber);
+  console.log("Games.js, day: " + dayNumber);
   const date = gamedate.getDate();
-  // console.log(date);
+  console.log("Games.js, date: " + date);
   const monthNumber = gamedate.getMonth();
-  //console.log(monthNumber);
+  console.log("Games.js, month: " + monthNumber);
   const year = gamedate.getFullYear();
-  //console.log(year);
+  console.log("Games.js, year: " + year);
 
   let day = "";
   switch (dayNumber) {
