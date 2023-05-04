@@ -128,7 +128,7 @@ const NewTimeOptionForm = (props) => {
           <br />
         </div>
         <div className="form-group col-6">
-          <label htmlFor="time">Max Number of Players</label>
+          <label htmlFor="time">Max Players</label>
           <input
             ref={maxPlayers}
             //defaultValue={props.timeTo}
