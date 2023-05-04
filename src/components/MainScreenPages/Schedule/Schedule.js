@@ -109,6 +109,7 @@ const Schedule = (props) => {
     "30th",
     "31st",
   ];
+  console.log("Games downloaded from Firebase: " + ScheduleCtx.games);
   ScheduleCtx.games.forEach((game) => {
     const gameCopy = { ...game };
     const thisGame = new Date(game.date + " EDT");
@@ -118,6 +119,12 @@ const Schedule = (props) => {
     const thisGameYear = thisGame.getFullYear();
     const thisGameDay = thisGame.getDay();
     const thisGamets = thisGame.getTime();
+    console.log("+++++++++++++++++++++++++++++++");
+    console.log("Date converted: ", thisGameDate);
+    console.log("Month converted: ", thisGameMonth);
+    console.log("Year converted: ", thisGameYear);
+    console.log("Day converted: ", thisGameDay);
+    console.log("ts converted: ", thisGamets);
     //console.log(thisGamets);
     // See if this game has an option where there current user has already signed up
     game.options.forEach((option) => {
