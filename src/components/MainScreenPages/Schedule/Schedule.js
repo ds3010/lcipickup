@@ -109,7 +109,7 @@ const Schedule = (props) => {
     "30th",
     "31st",
   ];
-  console.log("Date games downloaded from Firebase: " + ScheduleCtx.games.date);
+
   ScheduleCtx.games.forEach((game) => {
     const gameCopy = { ...game };
     const thisGame = new Date(game.date + " EDT");
@@ -120,6 +120,7 @@ const Schedule = (props) => {
     const thisGameDay = thisGame.getDay();
     const thisGamets = thisGame.getTime();
     console.log("+++++++++++++++++++++++++++++++");
+    console.log("Original Date from Firebase: " + game.date);
     console.log("Date converted: ", thisGameDate);
     console.log("Month converted: ", thisGameMonth);
     console.log("Year converted: ", thisGameYear);
