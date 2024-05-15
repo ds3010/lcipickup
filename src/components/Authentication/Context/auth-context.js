@@ -33,7 +33,7 @@ export const AuthContextProvider = (props) => {
   const [gameToPlay, setgameToPlay] = useState({});
 
   const userIsLoggedIn = !!token;
-  // console.log("In Context: ", userIsLoggedIn);
+  console.log('In Context: isAdmin', isAdmin)
 
   const loginHandler = (token, email, userId) => {
     setToken(token);

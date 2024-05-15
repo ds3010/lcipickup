@@ -14,7 +14,7 @@ const SignUpForm = (props) => {
   const fbApp = props.firebaseConn;
   const fbAuth = getAuth(fbApp);
   const fbdB = getFirestore(fbApp);
-
+  // console.log(fbdB)
   const authCtx = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -49,7 +49,9 @@ const SignUpForm = (props) => {
         .then((res) => {
           //console.log(res);
           //Creating a user collection document
+          console.log(res.user.uid)
           const usersRef = doc(fbdB, "users", res.user.uid);
+          console.log(usersRef);
           setDoc(
             usersRef,
             {
@@ -64,11 +66,11 @@ const SignUpForm = (props) => {
             },
             { merge: true }
           );
-          setFormMessage("Welcome!");
-          setFormSubmitted(true);
           authCtx.login(res.user.accessToken, res.user.email, res.user.uid);
           authCtx.updateProfile("", "", "", "");
           authCtx.updateAdminStatus(false);
+          setFormMessage("Welcome!");
+          setFormSubmitted(true);
           setTimeout(function () {
             onCloseHandler();
           }, 2000);

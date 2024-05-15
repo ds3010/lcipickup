@@ -60,12 +60,16 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(fbAuth, (user) => {
       //console.log("Auth state changed")
+      console.log('User: ',user)
       if (user) {
         //console.log("User exists")
         //console.log(user);
-        authCtx.login(user.accessToken, user.email, user.uid);
         const docRef = doc(fbDb, "users", user.uid);
+        console.log('docRef',docRef)
         getDoc(docRef).then((res) => {
+          authCtx.login(user.accessToken, user.email, user.uid);
+          // console.log('isAdmin in App.js', res.data().isAdmin);
+          console.log('Whole Data',res.data());
           //console.log("Inside getDoc in App.js");
           //console.log("isAdmin:", res.data().isAdmin);
           authCtx.updateAdminStatus(res.data().isAdmin);
