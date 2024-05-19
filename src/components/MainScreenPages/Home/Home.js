@@ -1,9 +1,37 @@
-import facilityImg from "../../../assets/images/facility-page.jpg";
+// import facilityImg from "../../../assets/images/facility-page.jpg";
 import "./Home.css";
+import { useContext, useEffect, useState } from "react";
+import ScheduleContext from "../Schedule/Context/schedule-context";
 
 const Home = () => {
+  const ScheduleCtx = useContext(ScheduleContext)
+  const [nextGame, setNextGame] = useState("")
+  
+  useEffect(() => {
+    if (ScheduleCtx.games.length > 0) {
+      const currentDate = new Date();
+      const currentDateTs = currentDate.getTime();
+      const futureGames = []
+      ScheduleCtx.games.forEach((game) => {
+        const thisGame = new Date(game.date);
+        const thisGamets = thisGame.getTime();
+        if (currentDateTs <= thisGamets + 86400000) {
+          futureGames.push(game)
+        }
+      })
+      futureGames.sort(function (a, b) {
+        return (
+          new Date(a.date + " EDT").getTime() - new Date(b.date + " EDT").getTime()
+        );
+      });
+      setNextGame(futureGames[0])
+    }
+  },[ScheduleCtx.games.length])
+
+  console.log(nextGame)
+
   return (
-    <div className="container">
+    <div className="ps-2 pe-2">
       <h3 className="pt-3 text-center">LCI Pickup</h3>
       <div className="pt-3 row">
         <div className="col-sm">
@@ -31,9 +59,25 @@ const Home = () => {
           </ul>
         </div>
         <div className="col-sm text-center">
-          <h4>
-            Next Game
-          </h4>
+          {ScheduleCtx.games.length > 0 ? <>
+              <h4>
+                Next Date: {nextGame.date}
+              </h4>
+              {nextGame !== "" && nextGame.options.map(game => {
+                return (<>
+                  <p>++++++++++++++++++++++++++++++++</p>
+                  <h4>
+                    Times:
+                  </h4>
+                  <p>++++++++++++++++++++++++++++++++</p>
+                  <p>{game.format}</p>
+                  <p>{game.timeFrom} to {game.timeTo}</p>
+                </>)
+              })}
+
+            </> : <h4>
+            There are no games available currently
+          </h4>}
         </div>
       </div>
     </div>
