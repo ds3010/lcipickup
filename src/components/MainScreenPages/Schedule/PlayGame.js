@@ -88,6 +88,7 @@ const PlayGame = (props) => {
           );
         } else {
           setLoadingPaymentScreen(true);
+          console.log(process.env.REACT_APP_CHECKOUT_URL)
           fetch(process.env.REACT_APP_CHECKOUT_URL, {
             method: "POST",
             headers: {

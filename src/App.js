@@ -27,6 +27,7 @@ import MakeAdminWarning from "./components/MainScreenPages/Users/MakeAdminWarnin
 import PlayGame from "./components/MainScreenPages/Schedule/PlayGame";
 import Success from "./components/MainScreenPages/Payment/Success";
 import Cancel from "./components/MainScreenPages/Payment/Cancel";
+import './App.css'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_KEY,

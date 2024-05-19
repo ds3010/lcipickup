@@ -116,7 +116,7 @@ const Schedule = (props) => {
     const dateNewFormat = game.date.replaceAll("-", "/");
     // const thisGame = new Date(game.date + " EDT");
     const thisGame = new Date(game.date);
-    console.log(dateNewFormat);
+    // console.log(dateNewFormat);
     //The following conversions are NOT working for iOS browsers (both chrome and safari have been tested)
     const thisGameDate = thisGame.getDate();
     const thisGameMonth = thisGame.getMonth();
@@ -130,23 +130,23 @@ const Schedule = (props) => {
     // const thisGamets = thisGame.getTime();
 
     //Console Logs to Tshoot the above
-    console.log("+++++++++++++++++++++++++++++++");
-    console.log("Original Date from Firebase: " + game.date);
-    console.log("NEW DATE FORMAT AS TSHOOT MEASURE: " + dateNewFormat);
-    console.log("THIS GAME VARIABLE THAT LEADS TO THE BELOW: " + thisGame);
+    // console.log("+++++++++++++++++++++++++++++++");
+    // console.log("Original Date from Firebase: " + game.date);
+    // console.log("NEW DATE FORMAT AS TSHOOT MEASURE: " + dateNewFormat);
     // console.log("THIS GAME VARIABLE THAT LEADS TO THE BELOW: " + thisGame);
-    console.log("Date converted: ", thisGameDate);
-    console.log("Month converted: ", thisGameMonth);
-    console.log("Year converted: ", thisGameYear);
-    console.log("Day converted: ", thisGameDay);
-    console.log("ts converted: ", thisGamets);
+    // // console.log("THIS GAME VARIABLE THAT LEADS TO THE BELOW: " + thisGame);
+    // console.log("Date converted: ", thisGameDate);
+    // console.log("Month converted: ", thisGameMonth);
+    // console.log("Year converted: ", thisGameYear);
+    // console.log("Day converted: ", thisGameDay);
+    // console.log("ts converted: ", thisGamets);
 
     //console.log(thisGamets);
     // See if this game has an option where there current user has already signed up
     game.options.forEach((option) => {
-      console.log("Month: " + months[thisGameMonth]);
-      console.log("Date: " + dates[thisGameDate - 1]);
-      console.log("Day: " + days[thisGameDay]);
+      // console.log("Month: " + months[thisGameMonth]);
+      // console.log("Date: " + dates[thisGameDate - 1]);
+      // console.log("Day: " + days[thisGameDay]);
       if (
         option.signedUpUsers.includes(authCtx.email) &&
         currentDateTs <= thisGamets + 86400000
@@ -282,20 +282,15 @@ const Schedule = (props) => {
           </div>
         </div>
       )}
-      {/* {previousGames.length > 0 && (
-        <div className="text-center">
-          <h3>Previous Dates</h3>
-          <div id="accordion">
-            {previousGames.map((game) => (
-              <Game
-                data={game}
-                key={game.date}
-                firebaseConn={props.firebaseConn}
-              ></Game>
-            ))}
+      {futureGames.length === 0 && todayGames.length === 0 && !authCtx.isAdmin && <>
+          <div className="container">
+            <div className="alert alert-success text-center">
+              <h4 className="text-center">
+                There are no games available, please contact admin
+              </h4>
+            </div>
           </div>
-        </div>
-      )} */}
+      </>}
     </>
   );
 };
